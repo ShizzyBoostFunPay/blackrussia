@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>𝐁𝐋𝐀𝐂𝐊 𝐑𝐔𝐒𝐒𝐈𝐀 · светлый шаблон by ShizzyBoost</title>
+    <!-- Favicon (SVG data uri) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2334495e'/%3E%3Ctext x='50' y='70' font-size='60' text-anchor='middle' fill='%23ffffff' font-family='Arial, sans-serif' font-weight='bold'%3EB%3C/text%3E%3C/svg%3E">
+    <style>
+        /* СБРОС И БАЗОВЫЙ СВЕТЛЫЙ СТИЛЬ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: #f8fafc;  /* fallback */
+            color: #1e2b37;
+            line-height: 1.5;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* КАНВАС ДЛЯ ЧАСТИЦ (на заднем плане) */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;  /* чтобы не мешать кликам */
+            background: linear-gradient(145deg, #eef5f9 0%, #dbe7f0 100%);
+            /* легкий градиент подложки, частицы будут поверх */
+        }
+
+        /* основной контейнер — полупрозрачный белый фон для читаемости */
+        .container {
+            max-width: 1300px;
+            margin: 30px auto;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(4px);
+            border-radius: 48px 48px 32px 32px;
+            box-shadow: 0 20px 40px rgba(0, 20, 30, 0.15), 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 35px 30px;
+            border: 1px solid rgba(90, 130, 150, 0.2);
+        }
+
+        h1, h2, h3 {
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            border-bottom: 2px solid #5f8da0;
+            padding-bottom: 12px;
+            margin-bottom: 30px;
+            color: #1e4051;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            text-align: center;
+            border-bottom: 3px double #4f7b8c;
+            margin-bottom: 40px;
+            font-weight: 600;
+            word-break: break-word;
+            color: #1f4b5e;
+            text-shadow: 2px 2px 0 rgba(255,255,255,0.8);
+        }
+
+        h1 span {
+            font-weight: 300;
+            font-size: 1.9rem;
+            color: #3b6d7e;
+            display: block;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            border-bottom: 1px solid #8aa9b9;
+            color: #235363;
+        }
+
+        h3 {
+            font-size: 1.7rem;
+            border-bottom: 1px dashed #8eb0c0;
+            margin-top: 40px;
+            color: #2b5e72;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 28px;
+            padding: 25px 30px;
+            border: 1px solid #c8dbe5;
+            box-shadow: 0 8px 18px -8px rgba(0,40,50,0.15);
+            backdrop-filter: blur(2px);
+        }
+
+        /* сетка терминов */
+        .term-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .term-item {
+            background: rgba(255, 255, 255, 0.8);
+            border-left: 6px solid #5f9db3;
+            padding: 14px 18px;
+            border-radius: 24px 12px 12px 24px;
+            box-shadow: 0 4px 12px rgba(43, 80, 90, 0.1);
+            transition: 0.15s;
+            font-size: 1.05rem;
+            border: 1px solid #c2dde9;
+        }
+
+        .term-item:hover {
+            background: rgba(255, 255, 255, 0.95);
+            border-left-color: #31758b;
+        }
+
+        .term-abbr {
+            font-weight: 700;
+            color: #174a5e;
+            font-size: 1.3rem;
+            margin-right: 10px;
+            display: inline-block;
+            min-width: 65px;
+        }
+
+        .term-desc {
+            display: inline;
+            color: #1f3f4b;
+        }
+
+        /* блоки ситуаций */
+        .situation-block {
+            background: #ffffffcc;
+            backdrop-filter: blur(4px);
+            border-radius: 30px;
+            padding: 20px 25px;
+            margin-bottom: 22px;
+            border: 1px solid #bed7e3;
+            box-shadow: 0 10px 15px -12px #205b6d30;
+        }
+
+        .situation-question {
+            font-weight: 600;
+            font-size: 1.3rem;
+            color: #105467;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .situation-question::before {
+            content: "❓";
+            color: #417e94;
+            font-size: 1.7rem;
+        }
+
+        .situation-answer {
+            background: #ebf5f9;
+            padding: 16px 22px;
+            border-radius: 50px 18px 18px 50px;
+            border-left: 6px solid #4797ad;
+            margin-left: 12px;
+            font-style: italic;
+            color: #103946;
+            box-shadow: inset 0 2px 6px #aacfdd;
+        }
+
+        .situation-answer::before {
+            content: "➤ Ответ:";
+            font-weight: 600;
+            color: #3a7e8f;
+            font-style: normal;
+            margin-right: 15px;
+        }
+
+        /* списки правил */
+        .rules-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .rules-list li {
+            background: #ffffffde;
+            margin: 10px 0;
+            padding: 14px 24px;
+            border-radius: 40px;
+            border: 1px solid #b1cfdd;
+            box-shadow: 0 3px 0 #b0cbd6;
+            font-size: 1.1rem;
+            color: #153d4b;
+        }
+
+        .rules-list li::before {
+            content: "⛔ ";
+            color: #c9583a;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px 20px;
+            margin: 25px 0;
+        }
+
+        .tag-item {
+            background: #deedf3;
+            border: 2px solid #4a8095;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #134b60;
+            box-shadow: 0 3px 0 #9ebecd;
+        }
+
+        .note {
+            background: #e4f2f0;
+            border: 1px solid #6199a8;
+            border-radius: 30px;
+            padding: 22px 28px;
+            margin-top: 30px;
+            font-size: 1.1rem;
+            color: #14505f;
+            box-shadow: 0 0 0 2px #ffffff50;
+        }
+
+        footer {
+            margin-top: 55px;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #2f6c7a;
+            border-top: 1px dashed #8cb3c2;
+            padding-top: 25px;
+        }
+
+        .small-note {
+            color: #3d6e7c;
+            font-size: 0.95rem;
+            margin-top: 10px;
+        }
+
+        /* адаптивность */
+        @media (max-width: 700px) {
+            .container { padding: 20px 15px; }
+            h1 { font-size: 2.2rem; }
+            .term-list { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- canvas для частиц (анимированный фон) -->
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="container">
+        <h1>𝐁𝐋𝐀𝐂𝐊 𝐑𝐔𝐒𝐒𝐈𝐀 <span> • ШАБЛОН ОБЗВОНА НА СС ОПГ • by ShizzyBoost •</span></h1>
+
+        <!-- ЭТАП 1: РП ТЕРМИНЫ -->
+        <section class="section">
+            <h2>🔰 Этап 1. РП термины</h2>
+
+            <h3>📋 Основные термины</h3>
+            <div class="term-list">
+                <div class="term-item"><span class="term-abbr">ДМ (DM)</span> <span class="term-desc">Убийство без причины. (Deathmach)</span></div>
+                <div class="term-item"><span class="term-abbr">ДБ (DB)</span> <span class="term-desc">Убийство с машины (машиной). (DriveBy)</span></div>
+                <div class="term-item"><span class="term-abbr">СК (SK)</span> <span class="term-desc">Славн килл, т.е. убийство при появлении. (SpawnKill)</span></div>
+                <div class="term-item"><span class="term-abbr">ТК (TK)</span> <span class="term-desc">Убийство своих. (TeamKill)</span></div>
+                <div class="term-item"><span class="term-abbr">РП (RP)</span> <span class="term-desc">"Role Play" – Игра по ролям, где каждый должен соблюдать свою роль. (RolePlay)</span></div>
+                <div class="term-item"><span class="term-abbr">МГ (MG)</span> <span class="term-desc">Использование информации из реального мира в игровой чат (сокращенно: OOC в ис). (MetaGaming)</span></div>
+                <div class="term-item"><span class="term-abbr">ГМ (GM)</span> <span class="term-desc">Бог мод – режим бога. (GodMode)</span></div>
+                <div class="term-item"><span class="term-abbr">ПГ (PG)</span> <span class="term-desc">Изображение из себя героя, например когда у тебя нет оружия и ты идешь на человека у которого оно есть, или драка 5 против одного. (PowerGaming)</span></div>
+                <div class="term-item"><span class="term-abbr">РК (RK)</span> <span class="term-desc">1. Возвращение на место где тебя убили. 2. Убийство с целью мести. 3. Неоднократное намеренное убийство одного и того же игрока. (RevengeKill)</span></div>
+                <div class="term-item"><span class="term-abbr">БХ (BX)</span> <span class="term-desc">"Бани Хоп" – нонРП бег с прыжками (shift+space). (BannyHope)</span></div>
+                <div class="term-item"><span class="term-abbr">УК (YK)</span> <span class="term-desc">"Уголовный Кодекс"</span></div>
+                <div class="term-item"><span class="term-abbr">АК (AK)</span> <span class="term-desc">"Академический Кодекс"</span></div>
+                <div class="term-item"><span class="term-abbr">ЗЗ (ZZ)</span> <span class="term-desc">"Зеленая Зона". Общественные места – площадь у мэрии, вокзалы, больницы и т.п. (В этой зоне запрещено стрелять). (GreenZone)</span></div>
+                <div class="term-item"><span class="term-abbr">ФР (FR)</span> <span class="term-desc">баг с быстрой перезарядкой (FastReloading)</span></div>
+                <div class="term-item"><span class="term-abbr">ФМ (FM)</span> <span class="term-desc">баг с быстрым перемещением (FastMoving)</span></div>
+            </div>
+
+            <h3 style="margin-top: 40px;">📌 Дополнительные термины</h3>
+            <div class="term-list">
+                <div class="term-item"><span class="term-abbr">CX (SH)</span> <span class="term-desc">Спидхак, чит на быстрое перемещение. (SpeedHack)</span></div>
+                <div class="term-item"><span class="term-abbr">ТП (TP)</span> <span class="term-desc">Телепорт (Teleport)</span></div>
+                <div class="term-item"><span class="term-abbr">ФФ (FF)</span> <span class="term-desc">Френдли фаер, стрельба по своим. К примеру по друзьям, не убивая их а оставляя 10xp, стрельба в шутку. (Friendly Fire)</span></div>
+                <div class="term-item"><span class="term-abbr">ЦК</span> <span class="term-desc">убийство по рп, запрещено на сервере.</span></div>
+                <div class="term-item"><span class="term-abbr">ЕПП</span> <span class="term-desc">езда по полям.</span></div>
+                <div class="term-item"><span class="term-abbr">ОРП</span> <span class="term-desc">уход от РП</span></div>
+                <div class="term-item"><span class="term-abbr">ТДМ</span> <span class="term-desc">массовое ДМ</span></div>
+                <div class="term-item"><span class="term-abbr">ПК (PK)</span> <span class="term-desc">(Player Kill — смерть игрока) — случайная смерть игрока от каких‑либо моментов. Не наносит урона персонажу, давая возможность продолжать RP за него. Считается как тяжкая/ряд мелких ран, давшая герою краткую амнезию, болевой шок и потерю сознания.</span></div>
+                <div class="term-item"><span class="term-abbr">FearRP</span> <span class="term-desc">(англ. Fear — страх). При FearRP ваш персонаж должен бояться смерти, что происходит и в реальном мире.</span></div>
+                <div class="term-item"><span class="term-abbr">ФЦК</span> <span class="term-desc">фракционное убийство.</span></div>
+                <div class="term-item"><span class="term-abbr">IC</span> <span class="term-desc">англ. In Character — «В роли своего персонажа» — внутригероизация информации и действия.</span></div>
+                <div class="term-item"><span class="term-abbr">ООС (OOC)</span> <span class="term-desc">англ. Out Of Character — «За ролью персонажа» — информация и действия, никак не касающиеся игры на RP проекте.</span></div>
+            </div>
+            <p class="small-note">* В скобках указаны английские аналоги/расшифровки.</p>
+        </section>
+
+        <!-- ЭТАП 2: РП СИТУАЦИИ -->
+        <section class="section">
+            <h2>🎭 Этап 2. РП ситуации</h2>
+
+            <!-- 1 -->
+            <div class="situation-block">
+                <div class="situation-question">1) Вы увидели сотрудника на мини-карте и он ездит по полям, что вы сделаете?</div>
+                <div class="situation-answer">Я проеду мимо, так как карта нон рп.</div>
+            </div>
+            <!-- 2 -->
+            <div class="situation-block">
+                <div class="situation-question">2) Ваш сотрудник Иван Иван очень быстро переоделся. Что вы будете делать?</div>
+                <div class="situation-answer">Сначала бы я попросил паспорт. И сказал бы "У вас поддельный паспорт". И дал бы уважение по причине Профф не Пригоден.</div>
+            </div>
+            <!-- 3 -->
+            <div class="situation-block">
+                <div class="situation-question">3) Вы едите с сотрудником и вас останавливает Полиция. Просит придыжить документы, сотрудник уходит от разговора и говорит у меня болит живот. Что вы будете делать?</div>
+                <div class="situation-answer">Как бы это нарушение рп, отыгрывание в свою пользу или уход от РП.</div>
+            </div>
+            <!-- 4 -->
+            <div class="situation-block">
+                <div class="situation-question">4) Ваш сотрудник прыгнул с крыши и использовал аптечку. Что он нарушил / Ваши действия?</div>
+                <div class="situation-answer">Нарушил ПГ он превысил силы своего персонажа. Дал бы увольнение по причине Профф не пригоден.</div>
+            </div>
+            <!-- 5 -->
+            <div class="situation-block">
+                <div class="situation-question">5) Вы едите с сотрудником и вашего сотрудника убивает преступник. Сотрудник возвращается и убивает тех, кто убил его. Что он нарушил / Ваши действия.</div>
+                <div class="situation-answer">Нарушил РК вернулся на место смерти и убил человека за то, что он убил его / я закрою глаза, открою и скажу "Показалось".</div>
+            </div>
+            <!-- 6 -->
+            <div class="situation-block">
+                <div class="situation-question">6) Вы едите на собеседование и вас похищают 4 ОПГ, они привозят вас в лес и дают документ об уходе ПСЖ и ручку. Если вы не подпишите, то они вас убьют. Что вы будете делать?</div>
+                <div class="situation-answer">Я подпишу, но не своей подписью.</div>
+            </div>
+            <!-- 7 -->
+            <div class="situation-block">
+                <div class="situation-question">7) Вы проводите мероприятие и вас крашнуло, когда вы заходите сотрудник спрашивает вас Куда вы пропали?</div>
+                <div class="situation-answer">Я срочно уехал.</div>
+            </div>
+            <!-- 8 -->
+            <div class="situation-block">
+                <div class="situation-question">8) Вы проснулись на крыше(или фиг знает где) и к вам подходит бандит и говорит, выполняйте мои требования иначе я вас убью. Что вы будете делать?</div>
+                <div class="situation-answer">Я буду слушаться его и делать всё чтобы он меня не убил.</div>
+            </div>
+            <!-- 9 -->
+            <div class="situation-block">
+                <div class="situation-question">9) К вам подходит сотрудник и говорит Либо вы его повышаете либо я покончу жизнь самоубийством. Что вы будете делать?</div>
+                <div class="situation-answer">Я попытаюсь его успокоить, спросить что случилось и вызову скорую.</div>
+            </div>
+            <!-- 10 -->
+            <div class="situation-block">
+                <div class="situation-question">10) К вам на собеседование подходит человек и говорит он принят. Но у него нон рп ник. Что вы будете делать?</div>
+                <div class="situation-answer">я попрошу паспорт и скажу у вас подделка в паспорте.</div>
+            </div>
+            <!-- 11 -->
+            <div class="situation-block">
+                <div class="situation-question">11) К вам на собеседование подходит сотрудник и говорит, что он принят. Но у него варн. Что вы будете делать?</div>
+                <div class="situation-answer">Скажу нету формы на ваш размер.</div>
+            </div>
+            <!-- 12 -->
+            <div class="situation-block">
+                <div class="situation-question">12) Сотрудник оскорбляет вас в нон рп чат, ваши действия?</div>
+                <div class="situation-answer">уволю по причине оскорбление.</div>
+            </div>
+            <!-- 13 -->
+            <div class="situation-block">
+                <div class="situation-question">13) Ваш сотрудник Иван Олег переоделся и пошёл работать в форме вашего сотрудника, ваши действия?</div>
+                <div class="situation-answer">сначала надо спросить где я был. Если я не был в раздевалке, ответ ничего не сделаю, так как я не узнал, что он переоделся. А если он в раздевалке спрашиваем 2 вопрос вы знаете что это Иван Олег или нет. Если знаете, то попросите паспорт и уволите по причине проф не пригоден. А если не знаете, то ничего не сделаете, так как я бы не знал, что это Иван Олег.</div>
+            </div>
+        </section>
+
+        <!-- ЭТАП 3: ПРАВИЛА ПРЕСС-ЦЕНТРА И РАЦИИ -->
+        <section class="section">
+            <h2>📻 Этап 3. Правила использования пресс-центра и рации департамента</h2>
+
+            <h3>📡 Волна департамента</h3>
+            <p style="margin: 15px 0; font-size: 1.2rem;"><strong>Может быть использована для:</strong></p>
+            <ul class="rules-list" style="list-style: none;">
+                <li style="background: #ffffffde;">📢 Занятия гос. волны.</li>
+                <li style="background: #ffffffde;">🤝 Коммуникации с другими государственными структурами.</li>
+                <li style="background: #ffffffde;">⚖️ Уточнения каких-либо разногласий во фракциях.</li>
+            </ul>
+
+            <p style="margin: 20px 0 10px; font-weight: 600; color: #0e4d62;">❌ Что запрещено писать в волну департамента?</p>
+            <ul class="rules-list">
+                <li>Строго запрещено МГшить.</li>
+                <li>Запрещено писать без тега своей организации (ниже список тегов каждой из организации).</li>
+                <li>Запрещено писать не по теме.</li>
+            </ul>
+
+            <h3>🏷️ Список тегов государственных организаций в гос. волну</h3>
+            <div class="tag-list">
+                <span class="tag-item">[Право] — Правительство</span>
+                <span class="tag-item">[ФСБ] — ФСБ</span>
+                <span class="tag-item">[ГИБДД] — ГИБДД</span>
+                <span class="tag-item">[УМВД] — УМВД</span>
+                <span class="tag-item">[ФСИН] — ФСИН</span>
+                <span class="tag-item">[МО] — Армия</span>
+                <span class="tag-item">[ЦБ] — Больница</span>
+                <span class="tag-item">[СМИ] — СМИ</span>
+            </div>
+
+            <h3>📰 Правила пресс-центра</h3>
+            <ul class="rules-list">
+                <li>Запрещено использовать Пресс-центр не по назначению.</li>
+                <li>Запрещено использовать ООС(MG) в названии/описании мероприятия.</li>
+                <li>Запрещено указывать в названии/описании мероприятия нецензурную брань.</li>
+                <li>Запрещено использовать грамматические ошибки в названии/описании мероприятия.</li>
+                <li>Пресс-центр используется для оповещения жителей о предстоящих собеседованиях, также его можно использовать для проведения различных мероприятий.</li>
+            </ul>
+
+            <div class="note">
+                ⚠️ <strong>Важно:</strong> Запрещено использовать пресс-центр не по назначению. Все мероприятия и собеседования должны анонсироваться корректно, без MG и нецензурной лексики.
+            </div>
+        </section>
+
+        <footer>
+            ⚡ by <strong>ShizzyBoost</strong> • шаблон обзвона на сс опг <br> • <span style="opacity: 0.8;">НА ТОВАРЕ АВТОРСКИЕ ПРАВА · ПЕРЕПРОДАЖА ЗАПРЕЩЕНА</span> • 
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let particles = [];
+
+            const PARTICLE_COUNT = 80;
+            const MAX_RADIUS = 3;
+            const MIN_RADIUS = 1.2;
+            const SPEED_FACTOR = 0.2;
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < PARTICLE_COUNT; i++) {
+                    particles.push({
+                        x: Math.random() * width,
+                        y: Math.random() * height,
+                        vx: (Math.random() - 0.5) * SPEED_FACTOR,
+                        vy: (Math.random() - 0.5) * SPEED_FACTOR,
+                        radius: MIN_RADIUS + Math.random() * (MAX_RADIUS - MIN_RADIUS),
+                        alpha: 0.3 + Math.random() * 0.3
+                    });
+                }
+            }
+
+            function resizeCanvas() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+                initParticles();
+            }
+
+            function drawParticles() {
+                ctx.clearRect(0, 0, width, height);
+                // легкий прозрачный градиент уже задан через background, но можно дорисовать
+                // просто рисуем частицы
+                particles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(70, 120, 140, ${p.alpha})`; // спокойный сине-серый
+                    ctx.shadowColor = '#7fa5b5';
+                    ctx.shadowBlur = 8;
+                    ctx.fill();
+                });
+                // сбросить тень для след кадра
+                ctx.shadowBlur = 0;
+            }
+
+            function updateParticles() {
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    // границы с отскоком (чтобы не улетали)
+                    if (p.x < 0 || p.x > width) {
+                        p.vx *= -1;
+                        p.x = Math.min(width, Math.max(0, p.x));
+                    }
+                    if (p.y < 0 || p.y > height) {
+                        p.vy *= -1;
+                        p.y = Math.min(height, Math.max(0, p.y));
+                    }
+
+                    // случайное небольшое изменение скорости, чтобы не зацикливалось
+                    if (Math.random() < 0.005) {
+                        p.vx += (Math.random() - 0.5) * 0.1;
+                        p.vy += (Math.random() - 0.5) * 0.1;
+                        // ограничим скорость
+                        const maxSpeed = 0.5;
+                        if (Math.abs(p.vx) > maxSpeed) p.vx = Math.sign(p.vx) * maxSpeed;
+                        if (Math.abs(p.vy) > maxSpeed) p.vy = Math.sign(p.vy) * maxSpeed;
+                    }
+                });
+            }
+
+            function animate() {
+                if (!width || !height) return;
+                updateParticles();
+                drawParticles();
+                requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', () => {
+                resizeCanvas();
+            });
+
+            resizeCanvas();
+            animate();
+
+            // небольшая дополнительная деталь: при движении мыши частицы слегка реагируют (по желанию)
+            // можно добавить лёгкое отталкивание
+            let mouseX = -1000, mouseY = -1000;
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            // опционально: мягкое воздействие мыши на ближайшие частицы
+            function applyMouseInfluence() {
+                if (!particles.length) return;
+                const influenceRadius = 100;
+                const strength = 0.03;
+                particles.forEach(p => {
+                    const dx = p.x - mouseX;
+                    const dy = p.y - mouseY;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < influenceRadius && dist > 1) {
+                        const force = (1 - dist / influenceRadius) * strength;
+                        p.vx += dx / dist * force;
+                        p.vy += dy / dist * force;
+                    }
+                });
+            }
+
+            // переопределим animate с учётом мыши
+            const originalAnimate = animate;
+            animate = function() {
+                if (!width || !height) return;
+                applyMouseInfluence();
+                updateParticles();
+                drawParticles();
+                requestAnimationFrame(animate);
+            };
+            animate();
+        })();
+    </script>
+</body>
+</html>
