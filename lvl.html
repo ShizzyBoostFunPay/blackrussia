@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Уровни в Black Russia | Таблица опыта и прокачка</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231a1a1a'/%3E%3Ccircle cx='50' cy='50' r='35' fill='%23FFD966'/%3E%3Ctext x='50' y='65' font-size='40' text-anchor='middle' fill='%231a1a1a' font-weight='bold'%3ELVL%3C/text%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background: #1a1a1a;
+        }
+        .content {
+            position: relative;
+            z-index: 2;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        .hero {
+            background: rgba(26, 26, 26, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 217, 102, 0.3);
+        }
+        .hero-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD966, #FFA500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .inactive-btn {
+            background: rgba(30,30,35,0.9);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,217,102,0.4);
+            padding: 0.6rem 1.4rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #FFD966;
+            cursor: default;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(255,217,102,0.15);
+            backdrop-filter: blur(4px);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: #FFD966;
+            border: 1px solid rgba(255,217,102,0.3);
+            margin-bottom: 1rem;
+        }
+        .card {
+            background: rgba(30,30,35,0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.8rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .card h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #FFD966;
+            padding-left: 1rem;
+        }
+        .card h3 {
+            font-size: 1.3rem;
+            margin: 1.2rem 0 0.8rem;
+            color: #FFD966;
+        }
+        .screenshot-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+            justify-content: center;
+        }
+        .screenshot-row img {
+            max-width: 100%;
+            border-radius: 1rem;
+            border: 1px solid #FFD96640;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+        .exp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .exp-table th, .exp-table td {
+            padding: 8px 6px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+        .exp-table th {
+            background: rgba(0,0,0,0.4);
+            color: #FFD966;
+        }
+        .method-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .method-item {
+            background: rgba(0,0,0,0.3);
+            border-radius: 1rem;
+            padding: 1rem;
+            border-left: 3px solid #FFD966;
+        }
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        .faq-item {
+            background: rgba(0,0,0,0.3);
+            border-radius: 1rem;
+            padding: 0.8rem;
+        }
+        .faq-question {
+            font-weight: 700;
+            color: #FFD966;
+        }
+        .cmd-code {
+            background: #00000099;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-family: monospace;
+            cursor: pointer;
+        }
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 0.8rem;
+            color: #aaa;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 2rem;
+        }
+        .copy-toast {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FFD966;
+            color: #1a1a1a;
+            padding: 10px 20px;
+            border-radius: 60px;
+            font-weight: bold;
+            z-index: 999;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+        }
+        @media (max-width: 760px) {
+            .content { padding: 1rem; }
+            .hero h1 { font-size: 1.8rem; }
+            .exp-table { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles-canvas"></canvas>
+<div class="content">
+    <div class="hero">
+        <div class="hero-header">
+            <div>
+                <div class="badge"><i class="fas fa-chart-line"></i> Полная таблица опыта</div>
+                <h1>УРОВНИ <span style="color:white">BLACK RUSSIA</span></h1>
+                <p>Как прокачаться, открыть работы и получить максимум EXP</p>
+            </div>
+            <div class="inactive-btn"><i class="fas fa-store"></i> Продавец ShizzyBoost</div>
+        </div>
+    </div>
+
+    <!-- Как посмотреть уровень -->
+    <div class="card">
+        <h2><i class="fas fa-id-card"></i> Как посмотреть свой уровень</h2>
+        <div class="screenshot-row">
+            <img src="https://wotpack.ru/wp-content/uploads/2024/12/screenshot_20241220-001444_black-russia-730x340.jpg" alt="Меню">
+            <img src="https://wotpack.ru/wp-content/uploads/2024/12/screenshot_20241220-001515_black-russia-730x340.jpg" alt="Статистика">
+        </div>
+        <p>Введите команду <span class="cmd-code" data-cmd="/menu">/menu</span> или <span class="cmd-code" data-cmd="/mm">/mm</span>, выберите <strong>«Статистика»</strong>. Там отображается уровень, опыт, семейный статус и работа.</p>
+    </div>
+
+    <!-- Таблица уровней 1-70 -->
+    <div class="card">
+        <h2><i class="fas fa-table"></i> Таблица опыта для уровней 1–70</h2>
+        <p>Каждый следующий уровень требует на <strong>4 EXP</strong> больше, чем предыдущий. Совокупный опыт — сумма необходимого для достижения уровня.</p>
+        <div style="overflow-x: auto;">
+            <table class="exp-table" id="expTable">
+                <thead><tr><th>Уровень</th><th>EXP для получения</th><th>Совокупный EXP</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Способы прокачки -->
+    <div class="card">
+        <h2><i class="fas fa-rocket"></i> Как быстро поднять уровень</h2>
+        <div class="method-list">
+            <div class="method-item">
+                <h3><i class="fas fa-tasks"></i> Выполнять начальные квесты</h3>
+                <div class="screenshot-row"><img src="https://wotpack.ru/wp-content/uploads/2024/12/vypolnyat-nachalnye-kvesty-black-russia-1-scaled.jpg"><img src="https://wotpack.ru/wp-content/uploads/2024/12/vypolnyat-nachalnye-kvesty-black-russia-2-scaled.jpg"></div>
+                <p>Команда <span class="cmd-code" data-cmd="/quest">/quest</span> открывает список стартовых заданий. Они дают опыт и знакомят с игрой. Также опыт выдают рабочие квесты.</p>
+            </div>
+            <div class="method-item">
+                <h3><i class="fas fa-gift"></i> Открывать кейсы</h3>
+                <div class="screenshot-row"><img src="https://wotpack.ru/wp-content/uploads/2024/12/otkryvat-keysy-black-russia-2-730x340.jpg"><img src="https://wotpack.ru/wp-content/uploads/2024/12/otkryvat-keysy-black-russia-3-730x339.jpg"></div>
+                <p>Кейсы (включая «Кейс бомжа») дают чистый опыт и VIP-статусы. Меню кейсов — иконка ленты в правом верхнем углу → вкладка «Кейсы».</p>
+            </div>
+            <div class="method-item">
+                <h3><i class="fas fa-crown"></i> Использовать VIP статусы и промокоды</h3>
+                <div class="screenshot-row"><img src="https://wotpack.ru/wp-content/uploads/2024/12/vip-pakety-i-promokody-black-russia-1-scaled.jpg"><img src="https://wotpack.ru/wp-content/uploads/2024/12/vip-pakety-i-promokody-black-russia-2-scaled.jpg"></div>
+                <p><strong>Gold</strong> (x2 EXP) и <strong>Platinum</strong> (x3 EXP) ускоряют прокачку в PayDay. Получить можно через промокоды, донат или Black Pass.</p>
+            </div>
+            <div class="method-item">
+                <h3><i class="fas fa-passport"></i> Прокачивать Black Pass</h3>
+                <div class="screenshot-row"><img src="https://wotpack.ru/wp-content/uploads/2024/12/black-pass-v-blek-rasha-730x340.jpg"></div>
+                <p>Выполняйте задания сезонного пропуска (иконка BP). Бесплатная версия даёт ~60 EXP и VIP-пакеты.</p>
+            </div>
+            <div class="method-item">
+                <h3><i class="fas fa-bed"></i> Уходить в RP сон</h3>
+                <div class="screenshot-row"><img src="https://wotpack.ru/wp-content/uploads/2024/12/rp-son-v-black-russia-730x342.jpg"><img src="https://wotpack.ru/wp-content/uploads/2024/12/rp-son-v-black-russia-2-730x341.jpg"></div>
+                <p>С 23:00 до 06:00 по МСК найдите лавочку или кровать, используйте анимацию №30 (<span class="cmd-code" data-cmd="/anim 30">/anim 30</span>). Каждый PayDay начисляется опыт.</p>
+            </div>
+            <div class="method-item">
+                <h3><i class="fas fa-calendar-alt"></i> Участвовать во временных ивентах</h3>
+                <p>Разработчики регулярно проводят мероприятия (Хэллоуин, Новый год и др.), где можно получить много EXP.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Работы по уровням -->
+    <div class="card">
+        <h2><i class="fas fa-briefcase"></i> С какого уровня открываются работы</h2>
+        <div class="faq-grid">
+            <div class="faq-item"><div class="faq-question">Дальнобойщик</div>10 уровень</div>
+            <div class="faq-item"><div class="faq-question">МЧС (спасатель)</div>5 уровень</div>
+            <div class="faq-item"><div class="faq-question">Водолаз</div>18 уровень</div>
+            <div class="faq-item"><div class="faq-question">Армия</div>3 уровень</div>
+            <div class="faq-item"><div class="faq-question">Электрик</div>12 уровень</div>
+            <div class="faq-item"><div class="faq-question">Кладоискатель</div>3 уровень</div>
+            <div class="faq-item"><div class="faq-question">Крупье</div>5 уровень</div>
+            <div class="faq-item"><div class="faq-question">Трейд (обмен)</div>3 уровень</div>
+            <div class="faq-item"><div class="faq-question">ГИБДД</div>4 уровень</div>
+            <div class="faq-item"><div class="faq-question">Такси</div>3 уровень</div>
+            <div class="faq-item"><div class="faq-question">Водитель мусоровоза</div>3 уровень</div>
+            <div class="faq-item"><div class="faq-question">Инкассатор</div>15 уровень</div>
+            <div class="faq-item"><div class="faq-question">ФСБ</div>4 уровень</div>
+            <div class="faq-item"><div class="faq-question">Газовщик</div>5 уровень</div>
+            <div class="faq-item"><div class="faq-question">СМИ</div>3 уровень</div>
+            <div class="faq-item"><div class="faq-question">Автомеханик</div>4 уровень</div>
+            <div class="faq-item"><div class="faq-question">Охотник</div>4 уровень</div>
+            <div class="faq-item"><div class="faq-question">УМВД</div>4 уровень</div>
+            <div class="faq-item"><div class="faq-question">ФСИН</div>4 уровень</div>
+            <div class="faq-item"><div class="faq-question">Правительство</div>3 уровень</div>
+        </div>
+        <p class="cmd-code" style="display:inline-block; margin-top:1rem;">*Для большинства фракций также требуются медкнижка, права, лицензия.</p>
+    </div>
+
+    <!-- Часто задаваемые вопросы -->
+    <div class="card">
+        <h2><i class="fas fa-question-circle"></i> Ответы на частые вопросы</h2>
+        <div class="faq-grid">
+            <div class="faq-item"><div class="faq-question">Как быстро поднять лвл?</div>Используйте VIP, выполняйте квесты, открывайте кейсы, спите в RP, участвуйте в ивентах.</div>
+            <div class="faq-item"><div class="faq-question">Какие активности дают больше всего EXP?</div>Рабочие квесты + VIP Platinum (x3), а также открытие «Кейсов бомжа».</div>
+            <div class="faq-item"><div class="faq-question">Можно ли прокачаться в одиночку?</div>Да, большинство работ (водолаз, дальнобойщик) не требуют напарника.</div>
+            <div class="faq-item"><div class="faq-question">Можно ли купить опыт?</div>Напрямую нет, но косвенно — через кейсы (выпадает чистый EXP).</div>
+            <div class="faq-item"><div class="faq-question">Как получить VIP бесплатно?</div>Промокоды, стандартный Black Pass, некоторые квесты.</div>
+            <div class="faq-item"><div class="faq-question">Какие работы с 4 уровня?</div>УМВД, ГИБДД, ФСБ, механик, охотник.</div>
+            <div class="faq-item"><div class="faq-question">Какие работы с 8 уровня?</div>Строитель, заместитель в организации, агент поддержки.</div>
+            <div class="faq-item"><div class="faq-question">Сколько всего уровней?</div>Максимальный уровень официально не ограничен, но для всех работ хватает 18 уровня.</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <i class="fas fa-star"></i> Прокачка ускоряется с VIP статусами. Самый быстрый способ — совмещать квесты, RP сон и открытие кейсов.
+    </div>
+</div>
+<div id="copyToast" class="copy-toast"><i class="fas fa-check-circle"></i> Скопировано</div>
+
+<script>
+    // Частицы
+    const canvas = document.getElementById('particles-canvas');
+    let ctx = canvas.getContext('2d');
+    let width, height, particles = [];
+    function initParticles() {
+        particles = [];
+        for(let i=0;i<90;i++) particles.push({
+            x: Math.random()*width, y: Math.random()*height, radius: Math.random()*2+1.2,
+            vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.2+0.1,
+            color: `rgba(255,217,102,${Math.random()*0.5+0.2})`
+        });
+    }
+    function resizeCanvas() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; initParticles(); }
+    function drawParticles() {
+        if(!ctx) return;
+        ctx.clearRect(0,0,width,height);
+        ctx.fillStyle='#1a1a1a';
+        ctx.fillRect(0,0,width,height);
+        for(let p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI*2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            p.x += p.vx; p.y += p.vy;
+            if(p.x<0) p.x=width; if(p.x>width) p.x=0;
+            if(p.y<0) p.y=height; if(p.y>height) p.y=0;
+        }
+        requestAnimationFrame(drawParticles);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    drawParticles();
+
+    // Таблица уровней (1-70)
+    function buildExpTable() {
+        const tbody = document.querySelector('#expTable tbody');
+        if(!tbody) return;
+        tbody.innerHTML = '';
+        let cumulative = 0;
+        for(let lvl=1; lvl<=70; lvl++) {
+            let need = 0;
+            if(lvl === 1) need = 0;
+            else if(lvl === 2) need = 8;
+            else need = 4 + (lvl-2)*4;
+            if(lvl === 1) cumulative = 0;
+            else cumulative += need;
+            const row = tbody.insertRow();
+            row.insertCell(0).textContent = lvl;
+            row.insertCell(1).textContent = lvl === 1 ? '—' : need;
+            row.insertCell(2).textContent = lvl === 1 ? '—' : cumulative;
+        }
+    }
+    buildExpTable();
+
+    // Копирование команд
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text);
+        const toast = document.getElementById('copyToast');
+        toast.style.opacity = '1';
+        setTimeout(()=>{ toast.style.opacity = '0'; }, 1500);
+    }
+    document.querySelectorAll('.cmd-code').forEach(el => {
+        const cmd = el.getAttribute('data-cmd') || el.innerText.trim();
+        el.setAttribute('data-cmd', cmd);
+        el.addEventListener('click', (e) => { e.stopPropagation(); copyToClipboard(cmd); });
+        el.style.cursor = 'pointer';
+    });
+</script>
+</body>
+</html>
