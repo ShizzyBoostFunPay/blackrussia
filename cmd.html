@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Все команды Black Russia | Полный справочник</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231a1a1a'/%3E%3Cpath fill='%23FFD966' d='M20 35 L80 35 L90 50 L80 65 L20 65 L10 50 Z'/%3E%3Ctext x='50' y='58' font-size='28' text-anchor='middle' fill='%231a1a1a' font-weight='bold'%3E/%3C/text%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background: #1a1a1a;
+        }
+        .content {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        .hero {
+            background: rgba(26, 26, 26, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 217, 102, 0.3);
+        }
+        .hero-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD966, #FFA500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .inactive-btn {
+            background: rgba(30,30,35,0.9);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,217,102,0.4);
+            padding: 0.6rem 1.4rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #FFD966;
+            cursor: default;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(255,217,102,0.15);
+            backdrop-filter: blur(4px);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: #FFD966;
+            border: 1px solid rgba(255,217,102,0.3);
+            margin-bottom: 1rem;
+        }
+        /* Навигация */
+        .category-nav {
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            border-radius: 1rem;
+            padding: 0.8rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            justify-content: center;
+        }
+        .category-nav a {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 0.8rem;
+            background: rgba(30,30,40,0.7);
+            padding: 0.4rem 0.9rem;
+            border-radius: 40px;
+            transition: 0.2s;
+        }
+        .category-nav a:hover { background: #FFD966; color: #1a1a1a; }
+        .card {
+            background: rgba(30,30,35,0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            scroll-margin-top: 80px;
+        }
+        .card h2 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #FFD966;
+            padding-left: 1rem;
+        }
+        .screenshot-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+            justify-content: center;
+        }
+        .screenshot-row img {
+            max-width: 100%;
+            border-radius: 1rem;
+            border: 1px solid #FFD96640;
+        }
+        .cmd-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 0.8rem;
+        }
+        .cmd-card {
+            background: rgba(0,0,0,0.4);
+            border-radius: 0.8rem;
+            padding: 0.6rem 0.8rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 8px;
+        }
+        .cmd-code {
+            background: #00000099;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-family: monospace;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .cmd-desc {
+            color: #ccc;
+            font-size: 0.85rem;
+        }
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 0.8rem;
+            color: #aaa;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .copy-toast {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FFD966;
+            color: #1a1a1a;
+            padding: 10px 20px;
+            border-radius: 60px;
+            font-weight: bold;
+            z-index: 999;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+        }
+        @media (max-width: 760px) {
+            .content { padding: 1rem; }
+            .hero h1 { font-size: 1.8rem; }
+            .cmd-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles-canvas"></canvas>
+<div class="content">
+    <div class="hero">
+        <div class="hero-header">
+            <div>
+                <div class="badge"><i class="fas fa-terminal"></i> Справочник</div>
+                <h1>ВСЕ КОМАНДЫ <span style="color:white">BLACK RUSSIA</span></h1>
+                <p>Общие, административные, фракционные, рабочие и семейные — полный список</p>
+            </div>
+            <div class="inactive-btn"><i class="fas fa-store"></i> Продавец ShizzyBoost</div>
+        </div>
+    </div>
+
+    <div class="category-nav" id="navLinks"></div>
+
+    <!-- Категории будут сгенерированы динамически -->
+    <div id="commandsContainer"></div>
+
+    <div class="footer">
+        <i class="fas fa-keyboard"></i> Команды вводятся в чат с символа / | Актуально на апрель 2026
+    </div>
+</div>
+<div id="copyToast" class="copy-toast"><i class="fas fa-check-circle"></i> Команда скопирована</div>
+
+<script>
+    // Частицы
+    const canvas = document.getElementById('particles-canvas');
+    let ctx = canvas.getContext('2d');
+    let width, height, particles = [];
+    function initParticles() {
+        particles = [];
+        for(let i=0;i<90;i++) particles.push({
+            x: Math.random()*width, y: Math.random()*height, radius: Math.random()*2+1.2,
+            vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.2+0.1,
+            color: `rgba(255,217,102,${Math.random()*0.5+0.2})`
+        });
+    }
+    function resizeCanvas() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; initParticles(); }
+    function drawParticles() {
+        if(!ctx) return;
+        ctx.clearRect(0,0,width,height);
+        ctx.fillStyle='#1a1a1a';
+        ctx.fillRect(0,0,width,height);
+        for(let p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI*2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            p.x += p.vx; p.y += p.vy;
+            if(p.x<0) p.x=width; if(p.x>width) p.x=0;
+            if(p.y<0) p.y=height; if(p.y>height) p.y=0;
+        }
+        requestAnimationFrame(drawParticles);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    drawParticles();
+
+    // Данные команд (категория, массив [команда, описание])
+    const commandsData = [
+        { name: " Общие команды", icon: "fas fa-globe", commands: [
+            ["/menu (/mm, /mn)", "Главное меню игрока"], ["/donat", "Проверить начисления доната"], ["/donate", "Донатный магазин"],
+            ["/gps", "GPS-навигатор"], ["/referals", "Реферальная программа"], ["/time", "Время на сервере"],
+            ["/news", "Активные мероприятия"], ["/help", "Меню помощи"], ["/leave", "Покинуть организацию"],
+            ["/buy", "Меню покупок"], ["/members", "Сотрудники организации онлайн"], ["/leaders", "Лидеры онлайн"],
+            ["/setspawn", "Выбор места спавна"], ["/charity", "Топ благотворителей"], ["/liclist", "Лицензёры онлайн"],
+            ["/adlist", "Адвокаты онлайн"], ["/anim", "Список анимаций"], ["/pay [ID]", "Передать деньги"],
+            ["/givemet [ID]", "Передать материалы"], ["/lic [ID]", "Показать лицензии"], ["/pass [ID]", "Показать паспорт"],
+            ["/med [ID]", "Медицинская карта"], ["/showvb [ID]", "Военный билет"], ["/skill [ID]", "Навыки силы"],
+            ["/changeprop [ID]", "Предложить обмен"], ["/yes /no", "Согласиться/отказаться"], ["/cancel", "Отменить заказ"],
+            ["/quest", "Стартовые задания"]
+        ] },
+        { name: " Чат и телефон", icon: "fas fa-comments", commands: [
+            ["/s [текст]", "Крикнуть"], ["/w [текст]", "Шепнуть"], ["/n [текст]", "OOC чат"],
+            ["/sms [номер] [текст]", "Отправить SMS"], ["/d [текст]", "Департамент гос. организаций"],
+            ["/r [текст]", "РП чат гос. организаций"], ["/rn [текст]", "Не РП чат гос. организаций"],
+            ["/f [текст]", "РП чат нелегальных"], ["/fn [текст]", "Не РП чат нелегальных"],
+            ["/me [текст]", "Действия от 1 лица"], ["/do [текст]", "Действия от 3 лица"],
+            ["/try [текст]", "Действие с шансом 50%"], ["/todo [речь*действие]", "Отыгрыш речи и действия"],
+            ["/chat", "Убрать чат с экрана"], ["/c [номер]", "Позвонить"], ["/p", "Принять звонок"],
+            ["/h", "Завершить вызов"], ["/togphone", "Отключить телефон (VIP)"], ["/add [ID] [номер]", "Добавить контакт"],
+            ["/book", "Телефонная книга"], ["/ad [текст]", "Подать объявление"], ["/gnews", "Государственная пресса"]
+        ] },
+        { name: " Лидерские команды", icon: "fas fa-crown", commands: [
+            ["/invite", "Пригласить во фракцию"], ["/uninvite", "Уволить из фракции"],
+            ["/rang [+/-]", "Повысить/понизить ранг"], ["/fvig", "Выдать выговор"], ["/funvig", "Снять выговор"],
+            ["/changeskin", "Выдать форму"], ["/members", "Сотрудники онлайн"], ["/showall", "Сотрудники офлайн"],
+            ["/lmenu", "Меню лидерских команд (9-10 ранг)"], ["/fpoint", "Обновить метку квеста"]
+        ] },
+        { name: " Звук и музыка", icon: "fas fa-music", commands: [
+            ["/music", "Включить музыку в машине"], ["/break", "Остановить музыку"], ["/voice", "Меню войсчата"]
+        ] },
+        { name: " VIP и прочие", icon: "fas fa-gem", commands: [
+            ["/admins", "Список администрации онлайн"], ["/helpers", "Список хелперов"], ["/v [текст]", "VIP чат"],
+            ["/binder", "Меню биндера"], ["/br [номер]", "Запустить биндер"], ["/present [ID]", "Подарить цветы"],
+            ["/id [часть имени]", "Узнать ID по нику"], ["/mask", "Надеть маску"], ["/history", "История ников"],
+            ["/tab", "Все игроки онлайн"], ["/bank", "Банковское меню"]
+        ] },
+        { name: " Админские команды (уровни)", icon: "fas fa-shield-alt", commands: [
+            ["/a [текст]", "Чат администрации"], ["/pm [ID] [ответ]", "Ответ на жалобу"], ["/ask", "Не рассмотренные вопросы"],
+            ["/rep", "Жалобы"], ["/sp [ID]", "Слежка"], ["/weap [ID]", "Арсенал игрока"], ["/stats [ID]", "Статистика"],
+            ["/slap [ID]", "Подбросить"], ["/jail [ID] [мин] [причина]", "Отправить в тюрьму"], ["/unjail [ID]", "Освободить"],
+            ["/mute [ID] [мин] [причина]", "Забанить в чате"], ["/unmute [ID]", "Разбанить"], ["/kick [ID] [причина]", "Выгнать"],
+            ["/ban [ID] [дней] [причина]", "Забанить"], ["/unban [ник]", "Снять бан"], ["/goto [ID]", "Телепорт к игроку"],
+            ["/gethere [ID]", "Телепорт игрока к себе"], ["/fly", "Режим полёта"], ["/agm", "Неуязвимость"],
+            ["/spawn [ID]", "Возродить"], ["/warn [ID]", "Выдать варн"], ["/unwarn [ID]", "Снять варны"],
+            ["/event", "Меню мероприятий"], ["/emsg [текст]", "Сообщение всем"], ["/msg [текст]", "Оповещение"],
+            ["/settime [0-23]", "Установить время"], ["/veh [ID] [цвет1] [цвет2]", "Вызвать админ-транспорт"],
+            ["/fixcar [ID]", "Починить машину"], ["/flip [ID]", "Перевернуть авто"], ["/setleader [ID]", "Назначить лидера"]
+        ] },
+        { name: " Наказания (упрощённые)", icon: "fas fa-gavel", commands: [
+            ["/nrp [ID]", "NonRP (не ролевое поведение)"], ["/ndrive [ID]", "Не ролевое вождение"], ["/db [ID]", "DriveBy"],
+            ["/rk [ID]", "Revenge Kill (возврат)"], ["/pg [ID]", "PowerGaming (геройство)"], ["/dm [ID]", "DeathMatch"],
+            ["/mg [ID]", "MetaGaming (мут)"], ["/caps [ID]", "CapsLock мут"], ["/osk [ID]", "Оскорбление мут"],
+            ["/flood [ID]", "Флуд мут"], ["/cheat [ID]", "Читы (бан)"], ["/tkil [ID]", "Team Kill (деморган)"]
+        ] },
+        { name: " Государственные фракции", icon: "fas fa-building", commands: [
+            ["/smenu", "Меню советника (Правительство)"], ["/givelic", "Продать лицензию"], ["/free [ID]", "Освободить из тюрьмы"],
+            ["/base", "Бортовой компьютер (УМВД/ГИБДД)"], ["/search [ID]", "Обыск"], ["/cuff [ID]", "Наручники"],
+            ["/uncuff [ID]", "Снять наручники"], ["/clear [ID]", "Убрать из розыска"], ["/arrest [ID]", "Арестовать"],
+            ["/takelic [ID]", "Изъять права"], ["/putpl [ID]", "Посадить в машину"], ["/gotome [ID]", "Вести за собой"],
+            ["/ptickets [ID]", "Штрафы (ГИБДД)"], ["/delticket [номер]", "Удалить штраф"], ["/radar", "Поставить радар"],
+            ["/rc /rnc /fc /fnc", "Рации ФСБ"], ["/cmembers", "Сотрудники под прикрытием"]
+        ] },
+        { name: " ФСИН (тюрьма)", icon: "fas fa-gavel", commands: [
+            ["/cuff /uncuff", "Наручники"], ["/rimmahe (/rummage)", "Обыскать схрон"], ["/gotome", "Вести"],
+            ["/search", "Обыск"], ["/startmeet /stopmeet", "Свидание"], ["/mr /unmr", "Выговор заключённому"],
+            ["/pr", "Поощрить"], ["/prin /prout", "Карцер"], ["/groom", "Пропуск в комнату свиданий"]
+        ] },
+        { name: " Больница и СМИ", icon: "fas fa-hospital", commands: [
+            ["/heal [ID] [цена]", "Лечить"], ["/out [ID]", "Выписать"], ["/ills", "Список раненых"],
+            ["/medhelp [ID] [цена]", "Лечение на койке"], ["/gmedcard [ID] [цена]", "Выдать медкарту"],
+            ["/pill [ID] [цена]", "Лекарство по рецепту"], ["/gnews [текст]", "Статья в гос. СМИ"],
+            ["/givemic [ID]", "Передать микрофон"], ["/t [текст]", "Радиоэфир"], ["/edit", "Редактировать объявления"],
+            ["/u [текст]", "Гость в эфире"], ["/estats", "Статистика объявлений"]
+        ] },
+        { name: " Рабочие профессии", icon: "fas fa-briefcase", commands: [
+            ["/carjack /scarjack", "Взлом авто (автоугонщик)"], ["/dig /stop /kleave", "Кладоискатель"],
+            ["/getfuel [л] /fill [ID] /repair [ID]", "Механик"], ["/find", "Список механиков"],
+            ["/colist /cmenu", "Инкассатор"], ["/meslist /mesinv /mesleave", "МЧС"]
+        ] },
+        { name: " Имущество и бизнес", icon: "fas fa-home", commands: [
+            ["/home", "Инфо о доме"], ["/exit", "Выйти из дома"], ["/makestore", "Переставить шкаф"],
+            ["/use", "Открыть шкаф"], ["/homelock", "Закрыть/открыть дверь"], ["/liveout", "Выселиться"],
+            ["/sellhome", "Продать дому государству"], ["/sellmyhome [ID] [сумма]", "Продать дом игроку"],
+            ["/live [ID]", "Подселить"], ["/garage", "Инфо о гараже"], ["/business", "Инфо о бизнесе"],
+            ["/sellbiz", "Продать бизнес государству"], ["/sellmybiz [ID] [сумма]", "Продать бизнес игроку"],
+            ["/bizmusic", "Музыка при входе"], ["/fuelst", "Инфо об АЗС"], ["/sellfuelst", "Продать АЗС"]
+        ] },
+        { name: " Автомобили", icon: "fas fa-car", commands: [
+            ["/car", "Загрузить личный транспорт"], ["/lock", "Замок"], ["/eject [ID]", "Выкинуть из машины"],
+            ["/rem", "Ремень безопасности"], ["/i", "Заправиться"], ["/engine", "Завести двигатель"],
+            ["/sellcar", "Продать авто государству"], ["/sellmycar [ID] [сумма]", "Продать авто игроку"],
+            ["/getmycar", "Местоположение авто"], ["/trunk", "Багажник"], ["/carpass [ID]", "Техпаспорт"],
+            ["/allow [ID]", "Передать ключи"]
+        ] },
+        { name: " Семья и свадьба", icon: "fas fa-users", commands: [
+            ["/fammenu (/fm)", "Панель семьи"], ["/famsklad", "Склад семьи"], ["/fam [текст]", "Чат семьи"],
+            ["/fammute [ID] /unfammute", "Мут в чате семьи"], ["/faminvite [ID]", "Пригласить в семью"],
+            ["/unfaminvite [ID]", "Исключить"], ["/wedding [ID]", "Предложение пожениться"], ["/divorce", "Развод"],
+            ["/witness [ID]", "Свидетель"], ["/wflowers", "Бросить букет"], ["/kiss [ID]", "Поцелуй"]
+        ] },
+        { name: " Компании (ТК, СК, такси, клуб)", icon: "fas fa-truck", commands: [
+            ["/company", "Меню транспортной компании"], ["/orders", "Активные заказы"], ["/cargo", "Обновить груз"],
+            ["/tc", "Чат дальнобойщиков"], ["/bcompany", "Меню строительной компании"], ["/bc", "Чат строительной компании"],
+            ["/tmenu", "Меню такси"], ["/tord", "Список заказов такси"], ["/tuninvite", "Уволить таксиста"],
+            ["/trank", "Сменить ранг таксисту"], ["/cemenu", "Меню владельца клуба"], ["/ncleave", "Уволиться из клуба"],
+            ["/exitvip", "Завершить аренду VIP"]
+        ] }
+    ];
+
+    function renderAll() {
+        const container = document.getElementById('commandsContainer');
+        const navContainer = document.getElementById('navLinks');
+        if(!container) return;
+        container.innerHTML = '';
+        navContainer.innerHTML = '';
+        commandsData.forEach((cat, idx) => {
+            const catId = `cat-${idx}`;
+            const link = document.createElement('a');
+            link.href = `#${catId}`;
+            link.innerHTML = `<i class="${cat.icon}"></i> ${cat.name}`;
+            navContainer.appendChild(link);
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.id = catId;
+            card.innerHTML = `<h2><i class="${cat.icon}"></i> ${cat.name}</h2><div class="cmd-grid" id="grid-${catId}"></div>`;
+            const grid = card.querySelector(`.cmd-grid`);
+            cat.commands.forEach(([cmd, desc]) => {
+                const cmdDiv = document.createElement('div');
+                cmdDiv.className = 'cmd-card';
+                const codeSpan = document.createElement('span');
+                codeSpan.className = 'cmd-code';
+                codeSpan.textContent = cmd;
+                codeSpan.setAttribute('data-cmd', cmd.split(' ')[0]);
+                codeSpan.addEventListener('click', (e) => { e.stopPropagation(); copyToClipboard(cmd.split(' ')[0]); });
+                const descSpan = document.createElement('span');
+                descSpan.className = 'cmd-desc';
+                descSpan.textContent = desc;
+                cmdDiv.appendChild(codeSpan);
+                cmdDiv.appendChild(descSpan);
+                grid.appendChild(cmdDiv);
+            });
+            container.appendChild(card);
+        });
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text);
+        const toast = document.getElementById('copyToast');
+        toast.style.opacity = '1';
+        setTimeout(()=>{ toast.style.opacity = '0'; }, 1500);
+    }
+
+    renderAll();
+</script>
+</body>
+</html>
