@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Промокоды Black Russia | Апрель 2026</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231a1a1a'/%3E%3Cpath fill='%23FFD966' d='M50 15 L61 35 L84 39 L67 55 L71 78 L50 66 L29 78 L33 55 L16 39 L39 35 Z'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Canvas Particles Background */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background: #1a1a1a;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Glow effects */
+        .glow-text {
+            text-shadow: 0 0 10px rgba(255, 217, 102, 0.3);
+        }
+
+        /* Header / Hero */
+        .hero {
+            background: rgba(26, 26, 26, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 217, 102, 0.3);
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.6);
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .hero-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD966, #FFA500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .inactive-btn {
+            background: rgba(30, 30, 35, 0.9);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 217, 102, 0.4);
+            padding: 0.6rem 1.4rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #FFD966;
+            cursor: default;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .inactive-btn i {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 217, 102, 0.15);
+            backdrop-filter: blur(4px);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #FFD966;
+            border: 1px solid rgba(255, 217, 102, 0.3);
+            margin-bottom: 1rem;
+        }
+
+        .game-desc {
+            background: rgba(0,0,0,0.5);
+            border-radius: 1.2rem;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #FFD966;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 0.7rem 1.6rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ccc;
+            cursor: pointer;
+            border-radius: 40px;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+
+        .tab-btn i {
+            margin-right: 8px;
+        }
+
+        .tab-btn.active {
+            background: #FFD966;
+            color: #1a1a1a;
+            box-shadow: 0 0 12px rgba(255, 217, 102, 0.6);
+        }
+
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(30, 30, 35, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.2s;
+        }
+
+        .card h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid #FFD966;
+            padding-left: 1rem;
+        }
+
+        /* Промо-баннер */
+        .promo-banner {
+            width: 100%;
+            border-radius: 1.2rem;
+            margin-bottom: 1.8rem;
+            border: 1px solid rgba(255,217,102,0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            transition: 0.2s;
+        }
+
+        /* Таблица промокодов */
+        .promo-grid {
+            overflow-x: auto;
+        }
+
+        .promo-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .promo-table th, .promo-table td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .promo-table th {
+            color: #FFD966;
+            font-weight: 600;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .code-cell {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            background: #00000066;
+            padding: 6px 14px;
+            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: 0.15s;
+            font-weight: 600;
+            border: 1px solid rgba(255,217,102,0.3);
+        }
+
+        .code-cell:hover {
+            background: #FFD966;
+            color: #1a1a1a;
+            border-color: #FFD966;
+        }
+
+        /* Серверная сетка */
+        .servers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .server-card {
+            background: rgba(20, 20, 25, 0.8);
+            backdrop-filter: blur(4px);
+            border-radius: 1.2rem;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.2s;
+        }
+
+        .server-card:hover {
+            border-color: #FFD966;
+            transform: translateY(-3px);
+        }
+
+        .server-title {
+            background: rgba(0,0,0,0.4);
+            padding: 1rem 1.2rem;
+            font-weight: 800;
+            font-size: 1.3rem;
+            border-left: 4px solid #FFD966;
+        }
+
+        .server-codes {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-height: 280px;
+            overflow-y: auto;
+        }
+
+        .code-item {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 8px;
+            font-size: 0.85rem;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            padding-bottom: 8px;
+        }
+
+        .promo-code-sm {
+            font-family: monospace;
+            background: #00000066;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: 0.1s;
+            white-space: nowrap;
+        }
+
+        .promo-code-sm i {
+            margin-left: 6px;
+            font-size: 0.7rem;
+        }
+
+        .promo-code-sm:hover {
+            background: #FFD966;
+            color: #1a1a1a;
+        }
+
+        .reward-text {
+            color: #dddddd;
+            word-break: break-word;
+        }
+
+        .screenshot-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+            justify-content: center;
+        }
+
+        .screenshot-row img {
+            max-width: 100%;
+            border-radius: 1rem;
+            border: 1px solid #FFD96640;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        .alert {
+            background: rgba(255, 100, 70, 0.15);
+            border-left: 4px solid #FFA500;
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+            backdrop-filter: blur(4px);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 0.8rem;
+            color: #aaa;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 2rem;
+        }
+
+        button.copy-toast {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FFD966;
+            color: #1a1a1a;
+            padding: 10px 20px;
+            border-radius: 60px;
+            font-weight: bold;
+            z-index: 999;
+            font-size: 0.9rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+
+        @media (max-width: 760px) {
+            .content {
+                padding: 1rem;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .card h2 {
+                font-size: 1.4rem;
+            }
+            .promo-table th, .promo-table td {
+                font-size: 0.75rem;
+                padding: 8px 6px;
+            }
+            .server-title {
+                font-size: 1.1rem;
+            }
+            .hero-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #2a2a2a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FFD966;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles-canvas"></canvas>
+<div class="content">
+    <div class="hero">
+        <div class="hero-header">
+            <div>
+                <div class="badge"><i class="fas fa-calendar-alt"></i> Апрель 2026 • Рабочие промокоды</div>
+                <h1>BLACK RUSSIA <span style="color:white">|</span> <span class="glow-text">ПРОМОКОДЫ</span></h1>
+                <p style="font-size: 1.1rem; margin-top: 0.5rem;">Авто, деньги, скины, опыт и VIP Gold/Platinum</p>
+            </div>
+            <div class="inactive-btn">
+                <i class="fas fa-store"></i> Продавец ShizzyBoost
+            </div>
+        </div>
+        <div class="game-desc">
+            <i class="fas fa-gamepad"></i> <strong>Black Russia</strong> — мобильная MMO-песочница в духе GTA с российским сеттингом. Работа, бизнес, тюнинг, уличные гонки и бандитские войны. Промокоды дают мощный старт: элитные авто, валюта, редкие скины и временный VIP.
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="common"><i class="fas fa-ticket-alt"></i> Общие промокоды</button>
+        <button class="tab-btn" data-tab="servers"><i class="fas fa-server"></i> По серверам</button>
+        <button class="tab-btn" data-tab="howto"><i class="fas fa-question-circle"></i> Как активировать</button>
+    </div>
+
+    <!-- Вкладка: Общие промокоды -->
+    <div id="common-tab" class="tab-pane active">
+        <div class="card">
+            <h2><i class="fas fa-star-of-life"></i> Действующие на всех серверах</h2>
+            <!-- НОВЫЙ СКРИНШОТ ПО ЗАПРОСУ -->
+            <img class="promo-banner" src="https://sun9-10.userapi.com/impf/dIhI7dsu7iuEHkbq11Owk8alBwy6f9z9k4wZzw/vxmXIHm9-HY.jpg?size=1920x768&quality=95&crop=128,0,1326,530&sign=0bab8d5947ca181019d0d635c763d952&type=cover_group" alt="Промокоды Black Russia баннер">
+            <div class="alert">
+                <i class="fas fa-info-circle"></i> <strong>Внимание:</strong> Промокоды от ютуберов (отмечены) — можно активировать <u>только один</u> на аккаунт. Остальные будут недоступны.
+            </div>
+            <div class="promo-grid">
+                <table class="promo-table" id="commonPromoTable">
+                    <thead><tr><th>Промокод <i class="fas fa-copy"></i> (нажмите)</th><th>Награда</th></tr></thead>
+                    <tbody id="commonPromoList"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Вкладка: Серверные промокоды -->
+    <div id="servers-tab" class="tab-pane">
+        <div class="card">
+            <h2><i class="fas fa-globe"></i> Промокоды для конкретных серверов</h2>
+            <img src="https://sun9-72.userapi.com/impf/n-aXAgh8oQweMgVIOx3m-mFQtQ4NL2rOzkbOoA/GHfvJkFVCeU.jpg?size=1920x768&quality=95&crop=0,0,1920,767&sign=67aba73e929e9b375144f5f1d86d388a&type=cover_group" alt="Сервера Black Russia" style="width:100%; border-radius: 20px; margin-bottom: 1.5rem;">
+            <div id="serversContainer" class="servers-grid"></div>
+        </div>
+    </div>
+
+    <!-- Вкладка: Инструкция + проблемы -->
+    <div id="howto-tab" class="tab-pane">
+        <div class="card">
+            <h2><i class="fas fa-map-signs"></i> Куда вводить промокоды</h2>
+            <div class="screenshot-row">
+                <img src="https://wotpack.ru/wp-content/uploads/2024/12/kuda-vvodit-promokody-1-730x411.jpg" alt="Меню">
+                <img src="https://wotpack.ru/wp-content/uploads/2024/12/kuda-vvodit-promokody-2-730x339.jpg" alt="Промокод в меню">
+            </div>
+            <div class="screenshot-row">
+                <img src="https://wotpack.ru/wp-content/uploads/2024/12/kuda-vvodit-promokody-3-730x344.jpg" alt="Активация">
+                <img src="https://wotpack.ru/wp-content/uploads/2024/12/kuda-vvodit-promokody-4-730x343.jpg" alt="Поле ввода">
+            </div>
+            <ol style="margin-left: 1.5rem; margin-top: 1rem;">
+                <li>На главном экране нажмите на три полоски (меню).</li>
+                <li>Выберите пункт «Промокод».</li>
+                <li>Нажмите «Активировать промокод» → «Далее».</li>
+                <li>Введите код (с # или @) и подтвердите.</li>
+                <li>Заберите награду в специальном разделе. Иногда требуется 2-3 уровень или подождать 1 час.</li>
+            </ol>
+            <div class="alert" style="margin-top: 1.5rem;">
+                <i class="fas fa-exclamation-triangle"></i> <strong>Почему код не работает?</strong> Лимит ютуберских кодов (только 1), уже активирован, истёк срок, опечатка, низкий уровень, технический сбой.
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <i class="fas fa-dice-d6"></i> Все промокоды собраны в апреле 2026. Актуальность подтверждена комьюнити Black Russia.
+    </div>
+</div>
+<div id="copyToast" class="copy-toast"><i class="fas fa-check-circle"></i> Промокод скопирован!</div>
+
+<script>
+    // ---------- Анимированные частицы ----------
+    const canvas = document.getElementById('particles-canvas');
+    let ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+    const PARTICLE_COUNT = 90;
+
+    function initParticles() {
+        particles = [];
+        for(let i = 0; i < PARTICLE_COUNT; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                radius: Math.random() * 2 + 1.2,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.2 + 0.1,
+                alpha: Math.random() * 0.5 + 0.2,
+                color: `rgba(255, 217, 102, ${Math.random() * 0.5 + 0.2})`
+            });
+        }
+    }
+
+    function resizeCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+        initParticles();
+    }
+
+    function drawParticles() {
+        if(!ctx) return;
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillRect(0, 0, width, height);
+        for(let p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            p.x += p.vx;
+            p.y += p.vy;
+            if(p.x < 0) p.x = width;
+            if(p.x > width) p.x = 0;
+            if(p.y < 0) p.y = height;
+            if(p.y > height) p.y = 0;
+        }
+        requestAnimationFrame(drawParticles);
+    }
+
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+    });
+    resizeCanvas();
+    drawParticles();
+
+    // -------------- Данные промокодов (общие) --------------
+    const commonPromos = [
+        { code: "#SMTD", reward: "Nissan GT-R R35 на 6 ч." },
+        { code: "#KNKL", reward: "25 000₽, VIP Gold на 2 ч." },
+        { code: "#PRZGR", reward: "Lamborghini Huracan на 6 ч." },
+        { code: "#GFBR", reward: "50 000₽, VIP Platinum на 2 ч." },
+        { code: "#SPISH", reward: "BMW M5 F90 на 12 ч., VIP Gold 12 ч." },
+        { code: "#MDVR", reward: "Bentley Mulliner Bacalar на 6 ч." },
+        { code: "#STNY", reward: "Dodge Demon SRT на 6 ч." },
+        { code: "#HTDSL", reward: "BMW M5 F90 на 6 ч." },
+        { code: "#GRMBR26", reward: "Скин 5500062 на 2 ч." },
+        { code: "#PSHRB", reward: "Porsche 911 Carrera S на 6 ч." },
+        { code: "#JTFWB", reward: "Mercedes CLS63 AMG на 6 ч." },
+        { code: "#JBFR", reward: "BMW M5 F90 на 6 ч." },
+        { code: "#DRTW", reward: "Ferrari 488 GTB на 6 ч." },
+        { code: "#LBVY", reward: "Bentley Mulliner Bacalar на 6 ч." },
+        { code: "#KNBT", reward: "Bugatti La Noire на 6 ч. + VIP Gold 3 ч." },
+        { code: "#ADGV", reward: "Секретный подарок" },
+        { code: "#LWWN", reward: "Porsche Panamera S на 6 ч." },
+        { code: "#WHSPR", reward: "15 000 валюты, BMW M5 F90 3ч, VIP Gold 2ч" },
+        { code: "#BQZF", reward: "Audi RS6 C7 Рестайлинг на 6 ч." },
+        { code: "#TRVF", reward: "BMW M3 E36 6ч + VIP Gold 3ч" },
+        { code: "#KDTR", reward: "Lamborghini Aventador S 6ч + VIP Gold 3ч" },
+        { code: "#NKLS", reward: "Mercedes CLS63 AMG 6ч + VIP Gold 3ч" },
+        { code: "#BCASE192", reward: "Бесплатный донатный кейс" },
+        { code: "#MHRD", reward: "Mercedes GT63s 6ч + VIP Gold 3ч" },
+        { code: "#brblitz", reward: "30 000₽, VIP Plat 2ч, рюкзак танкиста 12ч, баскетбольный рюкзак навсегда" },
+        { code: "#LVP", reward: "VIP Gold 2ч, Boomer 5 F90 6ч" },
+        { code: "#FMBD", reward: "Lamborghini Aventador S 3ч + VIP Gold 1ч" },
+        { code: "#BR14", reward: "Lamborghini Gallardo 6ч, аксессуары Шар+Очки 12ч, VIP Gold 3ч" },
+        { code: "#SFVM", reward: "30 000₽, Dodge Viper GTC 3ч, VIP Plat 1ч" },
+        { code: "#LGNBR", reward: "VIP Gold 2ч, Nissan GT-R R35 6ч" },
+        { code: "#FPSBR", reward: "VIP Gold 1ч, Audi R8 V10 3ч" },
+        { code: "#BRAMR", reward: "VIP Gold 3ч, Ferrari 488 GTB 6ч" },
+        { code: "#JNRSA", reward: "BMW M3 E36 3ч, скин №12293 3ч" },
+        { code: "#YANBR", reward: "Bugatti La Noire 3ч, скин №24 3ч" },
+        { code: "#BRJNZ", reward: "Автомобиль" },
+        { code: "#NYBR25", reward: "Bugatti Divo 6ч + VIP Gold 1ч" },
+        { code: "#upd", reward: "Скин №203 1ч" },
+        { code: "#vkbr", reward: "Boomer 4 Кабриолет 2дня, скин №270 4дня" },
+        { code: "#friday13", reward: "3 скина + Raesr Tachyon 2ч" },
+        { code: "#shark", reward: "GT63s 3ч" },
+        { code: "#ytbr", reward: "BMW X6M F16 3ч" },
+        { code: "#YANJNR", reward: "Lamborghini Aventador S 3ч + VIP Gold 1ч" },
+        { code: "#creep", reward: "Хэллоуин пак: GAZ 2402, облики, VIP Gold 15ч (с 3 уровня)" },
+        { code: "#fear", reward: "Черная маска дьявола на 108ч" },
+        { code: "#freddy", reward: "Оранжевая маска тыквы на 5 дней" },
+        { code: "#inbr", reward: "Mercedes G65 AMG 1ч" },
+        { code: "#BRLV", reward: "VIP Gold 1ч, Bentley Bacalar 3ч" },
+        { code: "#DCMBR", reward: "VIP Gold 1ч, Nissan GT-R 3ч" },
+        { code: "#maslennikov", reward: "Скин 6871 7дней, BMW M5 F90 12ч" },
+        { code: "#PLMBR", reward: "VIP Gold 1ч, Camaro ZL1 3ч" },
+        { code: "#dimk", reward: "[ютубера] 15к, скин №283 12ч, Шарик 12ч, Amber 12ч" },
+        { code: "#BRVK", reward: "VAZ 1111 12ч" },
+        { code: "#donny", reward: "[ютубера] 15к, Rolls-Royce Cullinan 12ч, скин №200, рюкзак Скуби, VIP Gold 1ч" },
+        { code: "#BRLVU", reward: "VIP Gold 6ч, Bugatti Chiron 12ч, 5000₽" },
+        { code: "#NGDBR", reward: "VIP Gold 3ч, Lamborghini Urus 12ч" },
+        { code: "#shield", reward: "GAZ 69, скины, Щит 12ч, VIP Gold 12ч" },
+        { code: "#topkin", reward: "120 000 валюты, Huracan 12ч, скин №89, VIP Gold 12ч" },
+        { code: "#DEV", reward: "Авто «Четырка» 8ч" },
+        { code: "#SCOOBY", reward: "V Minibus Halloween 6ч" },
+        { code: "#clown23", reward: "VIP Gold 12ч, Boomer F6, аксессуары" },
+        { code: "#BROCT", reward: "VIP Gold 3ч, Bugatti Divo 6ч" },
+        { code: "#MATIZZZ", reward: "Daewoo Matiz 3ч" },
+        { code: "#start", reward: "W124 3ч" }
+    ];
+
+    function renderCommonTable() {
+        const tbody = document.getElementById('commonPromoList');
+        if(!tbody) return;
+        tbody.innerHTML = '';
+        commonPromos.forEach(p => {
+            const row = tbody.insertRow();
+            const tdCode = row.insertCell(0);
+            const tdReward = row.insertCell(1);
+            const codeSpan = document.createElement('span');
+            codeSpan.className = 'code-cell';
+            codeSpan.innerHTML = `${p.code} <i class="fas fa-copy"></i>`;
+            codeSpan.setAttribute('data-code', p.code);
+            codeSpan.style.cursor = 'pointer';
+            codeSpan.addEventListener('click', (e) => { e.stopPropagation(); copyToClipboard(p.code); });
+            tdCode.appendChild(codeSpan);
+            tdReward.textContent = p.reward;
+        });
+    }
+
+    // ---------- Серверные данные ----------
+    const serversData = {
+        "RED": ["#tawerbb — 15 000 + награды", "#CROSS — 15 000", "#stark — 15 000", "#TRAMP — 15к, машина, скины", "#devon — 15к", "#young — 15к", "#delace — 2x опыт,15к", "#Rama — 2x опыт,15к,VIP Plat 6ч", "@Lewandowski — 2 exp,15к"],
+        "GREEN": ["#Aristocrat — 15к", "#dize — 15к", "#Burunduk — 15к", "#milich — 15к", "#smash — 15к", "#dagahan — 15к", "#lorik — 15к", "#dray — 15к", "#barons — 15к", "#bannano — 15к", "#linky — 15к", "#DAZE — 15к", "@Dragon1 — 2 exp,15к", "@agentfsb — 2 exp,15к"],
+        "BLUE": ["#water — 15к", "#larik — +15к", "#love — 15к", "#fromix — 15к", "#jetta — BMW M3 E30 48ч", "#lamberto — 15к", "#kile — 2x опыт,15к", "#HYUGOVICH — 2x опыт,15к", "@whygrach — 2 exp,15к", "@Beka — 2 exp,15к", "@kratov — 3 exp,15к, Бархатные тяги", "@chess — 2 exp,15к", "@RA1NDER — 2 exp,15к", "@chepss — 2 exp,15к", "@Rolls — 2 exp,15к", "@tiktoper — 2 exp,15к"],
+        "YELLOW": ["#zabr1k — 15к", "#snap — старт пакет", "#nochnik — 2x опыт,15к", "#lorenzo — 15к", "#karleone — 15к", "#tayner — 15к", "#loco — 15к", "#nexter — 15к", "#simon — 15к", "#klen — 15к", "#lemo — 15к", "@denis16 — 2 exp,15к"],
+        "ORANGE": ["#lipton — 15к", "#knire — 15к", "#donny — старт пакет", "#and — 2x опыт,15к", "#Ibragim — 2x опыт,15к", "@MrMorgan — 2x опыт,15к", "@7777777 — 2x опыт,15к", "@VINOGRADIK — 2x опыт,15к", "@Killer — 2x опыт,15к", "@carling — 2x опыт,15к", "@Lenyaadm — 2x опыт,15к"],
+        "PURPLE": ["#boyara — 15к", "#mekcy — 2 exp,15к", "@diapazon — 2 exp,15к", "@makspup — 2 exp,15к", "@Limon7k — 2 exp,15к"],
+        "LIME": ["#smouk — 15к", "#horo — 15к", "#grihan — 15к", "#eller — 2 exp,15к", "#afanasev — BMW M5 F90 15ч, Gold VIP 6ч", "#Sleepy — 15к, Gold VIP 6ч", "#asdfghjkl — 15к", "@denkis — 2 exp,15к", "@Benz — 2 exp,15к", "@Mansory — 2 exp,15к", "@Kawasaki — 2 exp,15к", "@Mafia — 2 exp,15к"],
+        "PINK": ["#waldemar — 15к", "#tray — удвоители,15к", "#Alex — 2x опыт,15к", "@saharov — 2x опыт,15к", "@Sashka — 2x опыт,15к"],
+        "CHERRY": ["#miron — 2x опыт,15к", "#kanikuly — Platinum VIP 24ч", "#m1kyy — 2x опыт,15к", "@MAXIMUS — 2x опыт,15к"],
+        "BLACK": ["#fromix — бонусы", "#KASTIK — старт", "#joditramp — 15к+", "#stark — 2 exp,15к", "#ArsTOP — 6 exp, Gold VIP 24ч, BMW M4 G82 48ч", "@Cream — 4 exp, BMW M3 e30 24ч, VIP Platinum", "@Lordik — 2 exp,15к"],
+        "INDIGO": ["#forbes — 15к", "#lmike — 15к", "#bur — 2 exp,15к", "#kosmobr — 15к пакет", "#ks — 15к", "@traprenas — 2 exp,15к"],
+        "WHITE": ["#malfoy — набор", "#tayner — 2 exp,15к"],
+        "MAGENTA": ["#lunsey — 15к", "#mrurban — 2x опыт,15к", "@vk — 2x опыт,15к"],
+        "CRIMSON": ["#vasd — пакет", "#Markiz — 2 exp,15к", "@FlokiMajor — 2 exp,15к", "@casto — 2 exp,15к"],
+        "GOLD": ["#landston — 15к", "#dimasta — пакет 15к", "#dimastatop — 15к", "#allonso — 2 exp,15к", "#BOYARA — 2 exp,VIP Gold 24ч", "@VarMakYT — 2 exp,15к", "@Panda — 6 exp, VIP Platinum 24ч"],
+        "AZURE": ["#cheap — старт", "#burunduk — помощь", "#farmer — 15к", "#Wengallbr — 15к", "#fresh — 2 exp,15к", "#Nakamura — призы", "@kyobax14 — 2 exp,15к"],
+        "PLATINUM": ["#redis — 2x опыт,15к", "@thomson — 6x опыт,60к", "@skayeagle — 2x опыт,15к", "@MaxImka — 2x опыт,15к", "@Blizard — 2x опыт,15к", "@stov — 2x опыт,15к"],
+        "AQUA": ["#allonso — 2x опыт,15к", "#lipton — старт", "@Castro#1 — 4x опыт,30к", "@JUISEtop — 2x опыт,15к", "@Day — 4x опыт,30к"],
+        "GRAY": ["#JODI — 15к", "#senviks — 15к", "#tayner — 15к", "#feniks — 15к", "#Gipsy — 15к", "@3000000 — 2x опыт,15к", "@Luxury — 2x опыт,15к", "@DedJonix — 2x опыт,15к"],
+        "ICE": ["#mazhorik — 15к", "#vasd — набор", "#lamberto — 2x опыт,15к", "#wow — Platinum VIP 1д", "@Sashkaben — 2x опыт,15к"],
+        "CHILLI": ["#cox — 15к", "#mison — 15к", "#sultanov — 15к", "#Nexize04 — 15к", "#mac — 15к", "@RussiaTop — 3x опыт,15к", "@GtDanik — 2x опыт,15к"],
+        "CHOCO": ["#damiromg — старт", "#depo — 2x опыт,15к", "@Lawrence — 2x опыт,15к"],
+        "MOSCOW": ["#ily — 15к, 2x опыт", "#smouk — 15к", "#daisy — 15к", "#BRAWLGUY — 15к", "@Trampik — 15к, 2x опыт"],
+        "SPB": ["#shein — 15к, 2x опыт", "#burm — старт", "@HungryTeam — 15к, 2x опыт"],
+        "UFA": ["#claynese — 15к", "#young — 15к", "#br — 15к", "#fresh — BMW M8 24ч,15к", "#KAIRAT — 15к", "#felix — 15к", "#maxonko — 2x опыт,15к", "@Paranoia — 2x опыт,15к"],
+        "SOCHI": ["#mazhorik — 2x опыт,15к", "#emperor — 15к", "#yumor — 15к", "@bestik1 — 2x опыт,15к"],
+        "KAZAN": ["#fresh — 15к", "#dimk — 15к", "#pedro — 15к", "#Pablo — 2x опыт,15к", "#benovich — 15к", "#stelli — 2x опыт,15к", "@arikovich — 2x опыт,15к", "@Martello — 2x опыт,15к"],
+        "SAMARA": ["#beltrix — 2 exp,15к", "#Lazyy — 2 exp,15к", "@Knyaz — 2 exp,15к"],
+        "ROSTOV": ["#mrt — 15к", "#shawty — 15к", "#revazz — 15к", "#gleb — 2x опыт,15к", "#kristall — BMW M5 E39 12ч", "@makacin — 2x опыт,15к"],
+        "ANAPA": ["#sayd — набор", "#snapi — 2x опыт,15к"],
+        "EKB": ["#ekb — набор", "#Bop — 2x опыт, Mercedes 124W 24ч", "#ban — 2x опыт,15к", "#banub — Nissan Skyline R34 3ч", "#agm — набор", "#martag — набор", "#killo — набор", "#vlad23 — 2x опыт,15к"],
+        "KRASNODAR": ["#krasnodar — 15к", "#martag — 15к", "@900k — 2 exp,15к", "@Vasikkk — 2 exp,15к"],
+        "ARZAMAS": ["#arz — 15к", "#agm — 15к", "#gtf — 15к", "#DEN — 15к", "#Saunder — 2 exp,15к", "#den — 2 exp,15к", "@NoName — 2 exp,15к"],
+        "NOVOSIB": ["#novosibirsk — старт", "@Eric123 — 2 exp,15к"],
+        "GROZNY": ["#grozny — 15к", "#fazer — 15к", "#Kamado — 2x опыт,15к", "@Pref — 2x опыт,15к"],
+        "SARATOV": ["#srtv — старт", "#rezkov — старт", "@danichy — 2 exp,15к", "@BlackDrikSRT — 2 exp,15к"],
+        "OMSK": ["#omsktv — старт", "@Leondit — 2x опыт,15к", "@Forever — 2x опыт,15к"],
+        "IRKUTSK": ["#38top — 15к", "#bysi — 2x опыт,15к", "#VLADOS — 2x опыт,15к", "#bossoy — 15к", "@nicolas — 2x опыт,15к", "@Secret — 2x опыт,15к"],
+        "VOLGOGRAD": ["#Vlggrd — 2x опыт,15к", "#vidoc — 2x опыт,15к"],
+        "VORONEZH": ["#vrn40 — старт", "#jefersan — 2 exp,15к", "#hestli — 2 exp,15к", "#dishik — 2 exp,15к"],
+        "BELGOROD": ["#belgord — 15к", "#belsorry — 15к", "#brand345 — 5 exp,15к", "@Tender — 2 exp,15к"],
+        "MAKHACHKALA": ["#makhMAYBR — 15к", "#domi — 15к", "@BumagovA4 — 2 exp,15к"],
+        "VLADIKAVKAZ": ["#VLDKVBR — набор"],
+        "VLADIVOSTOK": ["#VLDKBR — 15к", "@celdyarussia — 2 exp,15к", "@criminal — 2 exp,15к"],
+        "KALININGRAD": ["#KNGBR — 15к", "@Hedgehog — 2 exp,15к"],
+        "CHELYABINSK": ["#CHLBBR — 15к", "@surprise — 2 exp,15к"],
+        "KRASNOYARSK": ["#KRRBR — 15к", "@TimiltimYT — 2 exp,15к"],
+        "CHEBOKSARY": ["#BEOAYR — 15к", "#zxcMike — 2x опыт,15к", "@guhko — 2x опыт,15к", "@Monopoly — 2x опыт,15к", "@macho09 — 2x опыт,15к"],
+        "KHABAROVSK": ["#KHAQLA — 15к", "@THEWORLD — 2x опыт,15к"],
+        "Другие": ["PERM: #PLRWMF — пакет", "TULA: #TULNCW — 15к", "RYAZAN: #RYZLKS — набор", "MURMANSK: #MURUMP — 15к", "PENZA: #PNZYAE — 15к", "KURSK: #KUAVLX — 15к", "ARKHANGELSK: #ARKVXS — 15к", "ORENBURG: #OREXLG — 15к", "KIROV: #KIRQTP — 15к", "KEMEROVO: #KEMGHC — базовый", "TYUMEN: #TMNTWX — 15к", "TOLYATTI: #TOLPHB — 15к", "IVANOVO: #IVNTNC — 15к", "STAVROPOL: #STVGFX — 15к", "SMOLENSK: #SMLKVQ — 15к", "PSKOV: #PSKDVK — 15к", "TVER: #TVRSWI — 15к", "TOMSK: #TMSKW — набор"]
+    };
+
+    function renderServers() {
+        const container = document.getElementById('serversContainer');
+        if(!container) return;
+        container.innerHTML = '';
+        for(const [server, codeList] of Object.entries(serversData)) {
+            const card = document.createElement('div');
+            card.className = 'server-card';
+            card.innerHTML = `<div class="server-title">${server}</div><div class="server-codes"></div>`;
+            const codesDiv = card.querySelector('.server-codes');
+            codeList.forEach(item => {
+                let splitIdx = item.indexOf(' — ');
+                let codePart = splitIdx !== -1 ? item.substring(0, splitIdx) : item;
+                let rewardPart = splitIdx !== -1 ? item.substring(splitIdx+3) : '';
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'code-item';
+                const codeSpan = document.createElement('span');
+                codeSpan.className = 'promo-code-sm';
+                codeSpan.innerHTML = `${codePart} <i class="fas fa-copy"></i>`;
+                codeSpan.setAttribute('data-code', codePart.split(' ')[0]);
+                codeSpan.addEventListener('click', (e) => { e.stopPropagation(); copyToClipboard(codePart.split(' ')[0]); });
+                itemDiv.appendChild(codeSpan);
+                const rewardSpan = document.createElement('span');
+                rewardSpan.className = 'reward-text';
+                rewardSpan.textContent = rewardPart || "Бонусы";
+                itemDiv.appendChild(rewardSpan);
+                codesDiv.appendChild(itemDiv);
+            });
+            container.appendChild(card);
+        }
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text);
+        const toast = document.getElementById('copyToast');
+        toast.style.opacity = '1';
+        setTimeout(() => { toast.style.opacity = '0'; }, 1500);
+    }
+
+    // TABS
+    const tabs = document.querySelectorAll('.tab-btn');
+    const panes = document.querySelectorAll('.tab-pane');
+    tabs.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tabId = btn.getAttribute('data-tab');
+            tabs.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            panes.forEach(pane => pane.classList.remove('active'));
+            document.getElementById(`${tabId}-tab`).classList.add('active');
+        });
+    });
+
+    renderCommonTable();
+    renderServers();
+</script>
+</body>
+</html>
