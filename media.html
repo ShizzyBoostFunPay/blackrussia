@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Ответы СМИ в Black Russia | Тесты и руководство</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231a1a1a'/%3E%3Cpath fill='%23FFD966' d='M30 30 L70 30 L85 50 L70 70 L30 70 L15 50 Z'/%3E%3Ctext x='50' y='60' font-size='28' text-anchor='middle' fill='%231a1a1a' font-weight='bold'%3EN%3C/text%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background: #1a1a1a;
+        }
+        .content {
+            position: relative;
+            z-index: 2;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+        .hero {
+            background: rgba(26, 26, 26, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 217, 102, 0.3);
+        }
+        .hero-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD966, #FFA500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .inactive-btn {
+            background: rgba(30,30,35,0.9);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,217,102,0.4);
+            padding: 0.6rem 1.4rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #FFD966;
+            cursor: default;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(255,217,102,0.15);
+            backdrop-filter: blur(4px);
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: #FFD966;
+            border: 1px solid rgba(255,217,102,0.3);
+            margin-bottom: 1rem;
+        }
+        .card {
+            background: rgba(30,30,35,0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 1.5rem;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .card h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid #FFD966;
+            padding-left: 1rem;
+        }
+        .card h3 {
+            font-size: 1.3rem;
+            margin: 1.2rem 0 0.8rem 0;
+            color: #FFD966;
+        }
+        .screenshot-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            justify-content: center;
+        }
+        .screenshot-row img {
+            max-width: 100%;
+            border-radius: 1rem;
+            border: 1px solid #FFD96640;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+        .answer-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .answer-table th, .answer-table td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            vertical-align: top;
+        }
+        .answer-table th {
+            color: #FFD966;
+            font-weight: 600;
+            background: rgba(0,0,0,0.3);
+            width: 40%;
+        }
+        .rank-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        .rank-table th, .rank-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: left;
+        }
+        .rank-table th {
+            background: rgba(0,0,0,0.4);
+            color: #FFD966;
+        }
+        .cmd-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .cmd-item {
+            background: rgba(0,0,0,0.4);
+            border-radius: 0.8rem;
+            padding: 0.8rem;
+            font-family: monospace;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 12px;
+        }
+        .cmd-code {
+            background: #00000099;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 0.8rem;
+            color: #aaa;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 2rem;
+        }
+        .copy-toast {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FFD966;
+            color: #1a1a1a;
+            padding: 10px 20px;
+            border-radius: 60px;
+            font-weight: bold;
+            z-index: 999;
+            opacity: 0;
+            transition: 0.2s;
+            pointer-events: none;
+        }
+        @media (max-width: 760px) {
+            .content { padding: 1rem; }
+            .hero h1 { font-size: 1.8rem; }
+            .card h2 { font-size: 1.4rem; }
+            .answer-table th, .answer-table td { font-size: 0.8rem; padding: 8px 5px; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles-canvas"></canvas>
+<div class="content">
+    <div class="hero">
+        <div class="hero-header">
+            <div>
+                <div class="badge"><i class="fas fa-newspaper"></i> Карьерный гид</div>
+                <h1>ОТВЕТЫ СМИ <span style="color:white">BLACK RUSSIA</span></h1>
+                <p style="margin-top: 0.5rem;">Тесты, устав, редактирование объявлений, эфиры и повышение рангов</p>
+            </div>
+            <div class="inactive-btn">
+                <i class="fas fa-store"></i> Продавец ShizzyBoost
+            </div>
+        </div>
+    </div>
+
+    <!-- Как устроиться -->
+    <div class="card">
+        <h2><i class="fas fa-briefcase"></i> Как устроиться в СМИ</h2>
+        <div class="screenshot-row">
+            <img src="https://wotpack.ru/wp-content/uploads/2025/03/gde-smi-na-karte.jpg" alt="Расположение СМИ на карте">
+            <img src="https://wotpack.ru/wp-content/uploads/2025/03/otdel-kadrov-smi.jpg" alt="Отдел кадров СМИ">
+            <img src="https://wotpack.ru/wp-content/uploads/2025/03/trebovaniya-dlya-smi-730x329.jpg" alt="Требования">
+        </div>
+        <p><strong>Условия приёма:</strong> 3 уровень, медицинская книжка (5000₽ в больнице или 2500₽ у врача-игрока), права категории B.</p>
+        <p>Направляйтесь в город Южный, найдите здание СМИ, в холле у ресепшена — отдел кадров. Поговорите с NPC, чтобы пройти базовое тестирование и начать карьеру с ранга <strong>Практикант</strong>.</p>
+    </div>
+
+    <!-- Базовое тестирование (общие вопросы) -->
+    <div class="card">
+        <h2><i class="fas fa-question-circle"></i> Базовое тестирование в отделе кадров</h2>
+        <p>Стандартные вопросы для всех профессий. Правильные ответы:</p>
+        <table class="answer-table">
+            <thead><tr><th>Вопрос</th><th>Ответ</th></tr></thead>
+            <tbody>
+                <tr><td>Разрешено ли убивать коллег из организации?</td><td>Запрещено. Это нарушает правила игры.</td></tr>
+                <tr><td>Что такое «Зелёная зона»?</td><td>Зона, где нельзя наносить урон другим пользователям сервера.</td></tr>
+                <tr><td>Что такое RolePlay?</td><td>Игра по ролям (РП). Если пользователь медик — то он должен отыгрывать роль медика.</td></tr>
+                <tr><td>Что означает IC информация?</td><td>Информация, касающаяся игрового процесса.</td></tr>
+                <tr><td>Что такое OOC информация?</td><td>Информация, не относящаяся к игровому процессу.</td></tr>
+                <tr><td>Разрешено ли возвращаться на место смерти?</td><td>Запрещено. Это грубое нарушение правил игры.</td></tr>
+                <tr><td>Разрешено ли убивать игроков без причины?</td><td>Запрещено. Пользователь должен иметь вескую на то причину.</td></tr>
+                <tr><td>Разрешено ли оскорблять других игроков?</td><td>Запрещено. Сотруднику не позволительно никого ругать и оскорблять.</td></tr>
+            </tbody>
+        </table>
+        <p>После успешного прохождения вы получаете ранг <strong>Практикант</strong>.</p>
+    </div>
+
+    <!-- Тестирование для повышения до 2 ранга -->
+    <div class="card">
+        <h2><i class="fas fa-arrow-up"></i> Тестирование для 2 ранга (Фотограф)</h2>
+        <p>Чтобы получить повышение, ответьте на вопросы у NPC отдела кадров. Ниже — правильные ответы по разделам.</p>
+        
+        <h3>📜 Общее положение</h3>
+        <table class="answer-table">
+            <tr><td>Кто должен соблюдать устав организации?</td><td>Каждый сотрудник.</td></tr>
+            <tr><td>За что сотрудник может быть уволен из организации?</td><td>За грубое нарушение устава.</td></tr>
+        </table>
+
+        <h3>⚖️ Правила поведения</h3>
+        <table class="answer-table">
+            <tr><td>Кто является высшим руководством в организации?</td><td>Директор и продюсер.</td></tr>
+            <tr><td>Разрешено ли сотруднику применять оружие?</td><td>Сотруднику запрещено применять оружие на территории СМИ.</td></tr>
+            <tr><td>Разрешено ли сотруднику материться в эфирах?</td><td>Сотруднику запрещено материться в эфирах.</td></tr>
+            <tr><td>Разрешено ли сотруднику оскорблять кого-либо?</td><td>Сотрудник не имеет права оскорблять и ругаться с кем-то.</td></tr>
+            <tr><td>Разрешено ли проводить дуэли?</td><td>Сотруднику запрещено проводить дуэли, даже по согласию с директором.</td></tr>
+            <tr><td>Обязан ли сотрудник подчиняться законам области?</td><td>Сотрудник обязан подчиняться всем законам области, закон — превыше всего.</td></tr>
+            <tr><td>Можно ли пользоваться сотруднику автомобилем в личных целях?</td><td>Сотрудник не имеет права использовать автомобиль в личных целях.</td></tr>
+            <tr><td>Может ли сотрудник быть в казино в форме?</td><td>Сотруднику нельзя быть в казино, на контейнерах и в других развлечениях в форме.</td></tr>
+            <tr><td>Где сотрудник может спать (стоять в АФК)?</td><td>Сотрудник может спать (находиться в АФК) только в раздевалке.</td></tr>
+            <tr><td>Какой тег необходимо использовать при обращении в департамент?</td><td>[СМИ]</td></tr>
+        </table>
+
+        <h3>✏️ Правила редактирования объявлений</h3>
+        <table class="answer-table">
+            <tr><td>Что необходимо сделать, если смысл объявления непонятен?</td><td>Необходимо пропустить его, нажав кнопку «Далее».</td></tr>
+            <tr><td>Можно ли редактировать объявления о поиске кредитора или заемщика?</td><td>Нельзя.</td></tr>
+            <tr><td>Что необходимо писать при отсутствии цены?</td><td>Цена: договорная.</td></tr>
+            <tr><td>Что необходимо писать при отсутствии бюджета?</td><td>Бюджет: свободный.</td></tr>
+            <tr><td>Выберите верное объявление для: «Продам дом за 100к»</td><td>Продам дом. Цена: 100.000 рублей.</td></tr>
+            <tr><td>Выберите верное объявление для: «Машина Audi A4 за 200к куплю»</td><td>Куплю а/м «Audi A4». Бюджет: 200.000 рублей.</td></tr>
+            <tr><td>Выберите верное объявление для: «Продам сим-ку 7777»</td><td>Продам сим-карту формата «ХХХХ». Цена: договорная.</td></tr>
+            <tr><td>Выберите верное объявление для: «Продам чай 1 гр 100к»</td><td>Запрещено продавать любые виды чая.</td></tr>
+            <tr><td>Разрешено ли проводить собеседование в семьи / ОПГ?</td><td>Разрешено.</td></tr>
+        </table>
+
+        <h3>📺 Правила проведения эфиров</h3>
+        <table class="answer-table">
+            <tr><td>Сколько эфиров разрешено проводить одновременно?</td><td>Один эфир.</td></tr>
+            <tr><td>Можно ли оскорблять и унижать кого-то в эфире?</td><td>Строго запрещено.</td></tr>
+            <tr><td>Во сколько разрешено проводить эфиры?</td><td>С 8 до 23 по МСК.</td></tr>
+            <tr><td>Интервал между проведением эфиров?</td><td>30 минут.</td></tr>
+            <tr><td>Разрешено ли в эфирах говорить о политике?</td><td>Строго запрещено.</td></tr>
+        </table>
+    </div>
+
+    <!-- Ранги и зарплаты -->
+    <div class="card">
+        <h2><i class="fas fa-chart-line"></i> Ранги и зарплаты</h2>
+        <div class="screenshot-row">
+            <img src="https://wotpack.ru/wp-content/uploads/2025/03/rangi-u-smi-730x411.jpg" alt="Ранги СМИ">
+            <img src="https://wotpack.ru/wp-content/uploads/2025/03/kak-povysit-rang-730x411.jpg" alt="Повышение ранга">
+        </div>
+        <table class="rank-table">
+            <thead><tr><th>Ранг</th><th>Должность</th><th>Зарплата</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Практикант</td><td>1 600</td></tr>
+                <tr><td>2</td><td>Фотограф</td><td>2 340</td></tr>
+                <tr><td>3</td><td>Журналист</td><td>3 450</td></tr>
+                <tr><td>4</td><td>Корреспондент</td><td>4 120</td></tr>
+                <tr><td>5</td><td>Ведущий</td><td>4 890</td></tr>
+                <tr><td>6</td><td>Редактор</td><td>6 500</td></tr>
+                <tr><td>7</td><td>Маркетолог</td><td>8 500</td></tr>
+                <tr><td>8</td><td>Менеджер</td><td>10 400</td></tr>
+                <tr><td>9</td><td>Продюсер</td><td>12 500</td></tr>
+                <tr><td>10</td><td>Директор</td><td>16 000</td></tr>
+            </tbody>
+        </table>
+        <p>Повышение ранга происходит за выполнение поручений во вкладке «Задания» — наберите необходимое количество очков. Дополнительная премия выплачивается за каждое отредактированное объявление.</p>
+    </div>
+
+    <!-- Команды СМИ -->
+    <div class="card">
+        <h2><i class="fas fa-terminal"></i> Команды для отыгрыша СМИ</h2>
+        <div class="cmd-list">
+            <div class="cmd-item"><span class="cmd-code" data-cmd="/news">/news</span> <span>Написать статью и отправить в СМИ</span></div>
+            <div class="cmd-item"><span class="cmd-code" data-cmd="/givemic [ID]">/givemic [ID]</span> <span>Передать микрофон другому игроку</span></div>
+            <div class="cmd-item"><span class="cmd-code" data-cmd="/t [текст]">/t [текст]</span> <span>Начать эфир, ответ в роли ведущего</span></div>
+            <div class="cmd-item"><span class="cmd-code" data-cmd="/u [текст]">/u [текст]</span> <span>Ответ в роли гостя во время эфира</span></div>
+            <div class="cmd-item"><span class="cmd-code" data-cmd="/edit">/edit</span> <span>Редактировать объявления (в офисе у компьютера)</span></div>
+            <div class="cmd-item"><span class="cmd-code" data-cmd="/estats">/estats</span> <span>Статистика отредактированных объявлений</span></div>
+        </div>
+    </div>
+
+    <!-- Часто задаваемые вопросы -->
+    <div class="card">
+        <h2><i class="fas fa-question"></i> Часто задаваемые вопросы о СМИ</h2>
+        <div class="cmd-list">
+            <div class="cmd-item"><strong>Что такое СМИ в Блэк Раша?</strong> <span style="font-weight:normal;">— Средства массовой информации, занимающиеся распространением новостей, редактированием объявлений, проведением эфиров.</span></div>
+            <div class="cmd-item"><strong>Как работать в СМИ?</strong> <span>— Получите медкнижку, права B, достигните 3 уровня. Приходите в здание СМИ в Южном, пройдите тестирование. Выполняйте задания руководства для повышения ранга.</span></div>
+            <div class="cmd-item"><strong>Как получить 2 ранг в СМИ?</strong> <span>— Сразу после устройства пройдите дополнительное тестирование у NPC отдела кадров (вопросы по уставу, редактированию, эфирам). Правильные ответы — выше на странице.</span></div>
+            <div class="cmd-item"><strong>Как редактировать объявление в СМИ?</strong> <span>— Подойдите к компьютеру в главном холле офиса и введите команду /edit. Следуйте правилам редактирования из таблицы выше.</span></div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <i class="fas fa-microphone-alt"></i> Успешной работы в СМИ! Соблюдайте устав, качественно редактируйте объявления и проводите интересные эфиры.
+    </div>
+</div>
+<div id="copyToast" class="copy-toast"><i class="fas fa-check-circle"></i> Команда скопирована</div>
+
+<script>
+    // Частицы
+    const canvas = document.getElementById('particles-canvas');
+    let ctx = canvas.getContext('2d');
+    let width, height;
+    let particles = [];
+    function initParticles() {
+        particles = [];
+        for(let i=0;i<90;i++) {
+            particles.push({
+                x: Math.random()*width, y: Math.random()*height, radius: Math.random()*2+1.2,
+                vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.2+0.1,
+                color: `rgba(255, 217, 102, ${Math.random()*0.5+0.2})`
+            });
+        }
+    }
+    function resizeCanvas() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+        initParticles();
+    }
+    function drawParticles() {
+        if(!ctx) return;
+        ctx.clearRect(0,0,width,height);
+        ctx.fillStyle='#1a1a1a';
+        ctx.fillRect(0,0,width,height);
+        for(let p of particles) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI*2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            p.x += p.vx;
+            p.y += p.vy;
+            if(p.x<0) p.x=width; if(p.x>width) p.x=0;
+            if(p.y<0) p.y=height; if(p.y>height) p.y=0;
+        }
+        requestAnimationFrame(drawParticles);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    drawParticles();
+
+    // Копирование команд
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text);
+        const toast = document.getElementById('copyToast');
+        toast.style.opacity = '1';
+        setTimeout(()=>{ toast.style.opacity = '0'; }, 1500);
+    }
+    document.querySelectorAll('.cmd-code').forEach(el => {
+        const cmd = el.getAttribute('data-cmd') || el.innerText.trim();
+        el.setAttribute('data-cmd', cmd);
+        el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            copyToClipboard(cmd);
+        });
+        el.style.cursor = 'pointer';
+    });
+</script>
+</body>
+</html>
